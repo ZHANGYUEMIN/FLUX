@@ -1,0 +1,2530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1a2332">
+<title>FLUX · 流态人格系统 | 比 MBTI 更动态的人格框架</title>
+<meta name="description" id="metaDesc" content="FLUX 是一套基于动态人格理论的次世代人格框架，用三条轴线（SPARK / FRAME / MOVE）刻画你在时间与压力中真实流动的模式。8 种核心流态，9 道情境题，约 3 分钟。">
+<meta name="keywords" content="FLUX,人格测试,personality test,MBTI,流态人格,動的人格,SPARK,FRAME,MOVE">
+<meta name="author" content="HAPPY Games">
+
+<meta property="og:type" content="website">
+<meta property="og:title" id="ogTitle" content="FLUX · 流态人格系统">
+<meta property="og:description" id="ogDesc" content="人格不是盒子，而是河流。FLUX 用三轴六维，捕捉你在时间与压力中真实流动的模式。">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" id="twTitle" content="FLUX · 流态人格系统">
+<meta name="twitter:description" id="twDesc" content="比 MBTI 更动态的人格框架。8 种流态，9 道题，3 分钟。">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231a2332'/%3E%3Cpath d='M8 22 Q16 6 24 22' stroke='%23c1440e' stroke-width='2' fill='none'/%3E%3Cpath d='M8 22 Q16 14 24 22' stroke='%234fc3f7' stroke-width='1.5' fill='none' opacity='0.7'/%3E%3Ccircle cx='16' cy='18' r='2' fill='%23f5f0e8'/%3E%3C/svg%3E">
+
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&family=Noto+Serif+JP:wght@300;400;600&family=Space+Mono:wght@400;700&family=Raleway:wght@100;200;300;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --accent: #c1440e;
+    --gold: #c9a84c;
+    --mist: #8a9ba8;
+    --deep: #1a2332;
+    --glow: #4fc3f7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif SC', 'Noto Serif JP', serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+  html[lang="ja"] body { font-family: 'Noto Serif JP', 'Noto Serif SC', serif; }
+  html[lang="en"] body { font-family: 'Raleway', 'Noto Serif SC', serif; }
+
+  ::selection { background: var(--accent); color: var(--paper); }
+
+  /* NAV */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 14px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+    background: rgba(26,35,50,0.4);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    transition: background 0.4s;
+    gap: 16px;
+  }
+  .nav.light {
+    background: rgba(245,240,232,0.7);
+    border-bottom-color: rgba(0,0,0,0.06);
+  }
+  .nav-logo {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: var(--paper);
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+  .nav.light .nav-logo { color: var(--deep); }
+  .nav-logo span { color: var(--accent); }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+  .nav-links a {
+    color: rgba(245,240,232,0.6);
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+  .nav.light .nav-links a { color: rgba(13,13,13,0.6); }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* Language switcher */
+  .lang-switch {
+    display: flex;
+    border: 1px solid rgba(255,255,255,0.15);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .nav.light .lang-switch { border-color: rgba(0,0,0,0.15); }
+  .lang-btn {
+    background: transparent;
+    border: none;
+    padding: 6px 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: rgba(245,240,232,0.5);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .lang-btn:last-child { border-right: none; }
+  .nav.light .lang-btn { color: rgba(13,13,13,0.5); border-right-color: rgba(0,0,0,0.1); }
+  .lang-btn:hover { color: var(--paper); background: rgba(255,255,255,0.05); }
+  .nav.light .lang-btn:hover { color: var(--deep); background: rgba(0,0,0,0.05); }
+  .lang-btn.active {
+    background: var(--accent);
+    color: white;
+  }
+  .nav.light .lang-btn.active { color: white; }
+
+  @media (max-width: 720px) {
+    .nav-links { display: none; }
+    .nav { padding: 12px 16px; }
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: var(--deep);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 20% 60%, rgba(79,195,247,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 80% 30%, rgba(193,68,14,0.12) 0%, transparent 60%);
+  }
+
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .particles { position: absolute; inset: 0; pointer-events: none; }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: rgba(79,195,247,0.5);
+    border-radius: 50%;
+    animation: drift linear infinite;
+  }
+  @keyframes drift {
+    from { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10%, 90% { opacity: 0.7; }
+    to { transform: translateY(-10vh) translateX(40px); opacity: 0; }
+  }
+
+  .hero-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--glow);
+    text-transform: uppercase;
+    border: 1px solid rgba(79,195,247,0.3);
+    padding: 6px 16px;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+    z-index: 1;
+  }
+
+  .hero-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+    font-size: clamp(5rem, 18vw, 14rem);
+    color: var(--paper);
+    letter-spacing: -0.02em;
+    line-height: 0.9;
+    position: relative;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+    z-index: 1;
+  }
+  .hero-title span {
+    font-weight: 900;
+    color: var(--accent);
+    display: inline-block;
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+  @keyframes pulse-glow {
+    0%, 100% { text-shadow: 0 0 0 transparent; }
+    50% { text-shadow: 0 0 30px rgba(193,68,14,0.6); }
+  }
+
+  .hero-sub {
+    font-weight: 300;
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: rgba(245,240,232,0.6);
+    margin-top: 24px;
+    letter-spacing: 0.15em;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+    z-index: 1;
+  }
+
+  .hero-desc {
+    max-width: 540px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: rgba(245,240,232,0.45);
+    margin-top: 20px;
+    line-height: 1.8;
+    font-family: 'Space Mono', monospace;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+    padding: 0 24px;
+    z-index: 1;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    margin-top: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.1s forwards;
+    z-index: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0 24px;
+  }
+  .cta-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    text-decoration: none;
+    transition: all 0.25s;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+  }
+  .cta-primary {
+    background: var(--accent);
+    color: var(--paper);
+  }
+  .cta-primary:hover {
+    background: #a33a0c;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(193,68,14,0.3);
+  }
+  .cta-secondary {
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(245,240,232,0.7);
+  }
+  .cta-secondary:hover {
+    border-color: var(--glow);
+    color: var(--glow);
+  }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(245,240,232,0.3);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    animation: pulse 2s infinite;
+    z-index: 1;
+  }
+  .scroll-cue::after {
+    content: '';
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(245,240,232,0.3), transparent);
+    animation: extend 2s infinite;
+  }
+
+  /* INTRO */
+  .intro {
+    padding: 120px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .intro-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .intro h2 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    line-height: 1.15;
+    color: var(--deep);
+  }
+  .intro-visual {
+    position: relative;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .axis-diagram {
+    position: relative;
+    width: 280px;
+    height: 280px;
+  }
+  .axis-line { position: absolute; background: var(--mist); }
+  .axis-h { width: 100%; height: 1px; top: 50%; left: 0; }
+  .axis-v { width: 1px; height: 100%; left: 50%; top: 0; }
+  .axis-label {
+    position: absolute;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--mist);
+    text-transform: uppercase;
+  }
+  .quadrant-dot {
+    position: absolute;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.3s;
+  }
+  .quadrant-dot:hover { transform: translate(-50%, -50%) scale(2); }
+
+  /* AXES SECTION */
+  .axes-section {
+    background: var(--deep);
+    padding: 100px 40px;
+    color: var(--paper);
+  }
+  .axes-inner { max-width: 1100px; margin: 0 auto; }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 70px;
+  }
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    color: var(--glow);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 200;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--paper);
+  }
+  .axes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+  .axis-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 40px 32px;
+    transition: background 0.3s, border-color 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .axis-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--accent);
+    transition: height 0.4s;
+  }
+  .axis-card:hover::before { height: 100%; }
+  .axis-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
+  .axis-num {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 900;
+    font-size: 3.5rem;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .axis-name {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+    color: var(--paper);
+    margin-bottom: 12px;
+  }
+  .axis-poles {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .pole {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    padding: 4px 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.1em;
+  }
+  .pole-divider {
+    color: rgba(255,255,255,0.2);
+    font-family: 'Space Mono', monospace;
+  }
+  .axis-desc {
+    font-size: 0.82rem;
+    color: rgba(245,240,232,0.45);
+    line-height: 1.75;
+  }
+
+  /* TYPES SECTION */
+  .types-section { padding: 120px 40px; background: var(--paper); }
+  .types-inner { max-width: 1200px; margin: 0 auto; }
+  .types-intro { max-width: 600px; margin-bottom: 80px; }
+  .types-intro p {
+    color: var(--mist);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    margin-top: 16px;
+  }
+  .types-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .type-card {
+    border: 1px solid rgba(0,0,0,0.1);
+    padding: 32px 24px;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    background: white;
+  }
+  .type-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--deep);
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 0;
+  }
+  .type-card:hover { transform: translateY(-4px); }
+  .type-card:hover::after { transform: translateY(0); }
+  .type-card:hover .type-code,
+  .type-card:hover .type-name,
+  .type-card:hover .type-tagline,
+  .type-card:hover .type-traits { color: var(--paper); }
+  .type-card:hover .trait-tag {
+    border-color: rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.6);
+  }
+  .type-card > * { position: relative; z-index: 1; }
+  .type-glyph {
+    width: 44px; height: 44px;
+    margin-bottom: 20px;
+    transition: opacity 0.3s;
+    position: relative;
+    z-index: 1;
+  }
+  .type-code {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    color: var(--mist);
+    margin-bottom: 8px;
+    transition: color 0.3s;
+  }
+  .type-name {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--deep);
+    margin-bottom: 10px;
+    transition: color 0.3s;
+  }
+  .type-tagline {
+    font-size: 0.8rem;
+    color: var(--mist);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    transition: color 0.3s;
+    min-height: 50px;
+  }
+  .type-traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    transition: color 0.3s;
+  }
+  .trait-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border: 1px solid rgba(0,0,0,0.15);
+    color: var(--mist);
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  /* QUIZ */
+  .quiz-section {
+    background: var(--deep);
+    padding: 100px 40px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+  .quiz-inner { max-width: 720px; margin: 0 auto; width: 100%; }
+  .quiz-header { text-align: center; margin-bottom: 60px; }
+  .quiz-header h2 {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 200;
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--paper);
+  }
+  .quiz-progress {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 50px;
+    justify-content: center;
+  }
+  .progress-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    transition: background 0.3s, transform 0.3s;
+  }
+  .progress-dot.active { background: var(--glow); transform: scale(1.5); }
+  .progress-dot.done { background: var(--accent); }
+  .question-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 50px;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  @media (max-width: 600px) { .question-box { padding: 32px 24px; } }
+  .q-axis {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--glow);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .q-text {
+    font-size: 1.25rem;
+    color: var(--paper);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .option-btn {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(245,240,232,0.7);
+    padding: 20px 24px;
+    text-align: left;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .option-btn:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: var(--glow);
+    color: var(--paper);
+    transform: translateX(4px);
+  }
+  .option-btn.selected {
+    background: rgba(79,195,247,0.1);
+    border-color: var(--glow);
+    color: var(--paper);
+  }
+  .option-letter {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--glow);
+    display: block;
+    margin-bottom: 6px;
+    letter-spacing: 0.2em;
+  }
+  .quiz-actions { display: flex; gap: 12px; margin-top: 12px; }
+  .next-btn {
+    flex: 1;
+    background: var(--accent);
+    border: none;
+    color: white;
+    padding: 18px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .next-btn.visible { opacity: 1; pointer-events: auto; }
+  .next-btn:hover { background: #a33a0c; transform: translateY(-2px); }
+  .back-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(245,240,232,0.5);
+    padding: 18px 22px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .back-btn:hover { color: var(--paper); border-color: rgba(255,255,255,0.3); }
+  .back-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* RESULT */
+  .result-box {
+    display: none;
+    text-align: center;
+    padding: 60px 40px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  @media (max-width: 600px) { .result-box { padding: 40px 20px; } }
+  .result-box.show { display: block; animation: fadeUp 0.6s forwards; }
+  .result-code-display {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.5em;
+    color: var(--glow);
+    margin-bottom: 16px;
+  }
+  .result-glyph { width: 80px; height: 80px; margin: 0 auto 24px; }
+  .result-name {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 900;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: var(--paper);
+    margin-bottom: 12px;
+  }
+  .result-tagline {
+    font-size: 1.05rem;
+    color: rgba(245,240,232,0.6);
+    font-weight: 300;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+  .result-axes {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+  .result-axis-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    padding: 8px 16px;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(245,240,232,0.7);
+  }
+  .score-bars { max-width: 540px; margin: 0 auto 40px; text-align: left; }
+  .score-bar-row { margin-bottom: 28px; }
+  .score-bar-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: rgba(245,240,232,0.4);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .score-bar-labels .axis-name-mini { color: var(--glow); }
+  .score-bar-track {
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    position: relative;
+    overflow: hidden;
+  }
+  .score-bar-fill {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .score-bar-fill.left {
+    left: 50%;
+    transform: translateX(-100%);
+    background: linear-gradient(to right, var(--accent), var(--gold));
+  }
+  .score-bar-fill.right {
+    left: 50%;
+    background: linear-gradient(to left, var(--glow), var(--gold));
+  }
+  .score-bar-center {
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    width: 1px;
+    height: 10px;
+    background: rgba(255,255,255,0.3);
+  }
+  .score-bar-poles {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(245,240,232,0.5);
+    margin-top: 6px;
+  }
+  .result-section {
+    text-align: left;
+    max-width: 600px;
+    margin: 32px auto;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .result-section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.4em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .result-desc {
+    font-size: 0.92rem;
+    color: rgba(245,240,232,0.65);
+    line-height: 1.9;
+  }
+  .trait-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  @media (max-width: 600px) { .trait-list { grid-template-columns: 1fr; } }
+  .trait-item {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: rgba(245,240,232,0.6);
+    padding: 10px 14px;
+    border-left: 2px solid var(--gold);
+    background: rgba(255,255,255,0.02);
+    line-height: 1.5;
+  }
+  .trait-item.shadow { border-left-color: var(--accent); }
+  .career-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .career-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    padding: 6px 12px;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(245,240,232,0.6);
+    letter-spacing: 0.1em;
+  }
+  .shadow-card {
+    background: rgba(193,68,14,0.05);
+    border: 1px solid rgba(193,68,14,0.2);
+    padding: 24px 28px;
+    margin-top: 12px;
+  }
+  .shadow-code {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .shadow-name {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: var(--paper);
+    margin-bottom: 8px;
+  }
+  .shadow-desc {
+    font-size: 0.85rem;
+    color: rgba(245,240,232,0.55);
+    line-height: 1.7;
+  }
+  .result-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 48px;
+    flex-wrap: wrap;
+  }
+  .result-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(245,240,232,0.7);
+    padding: 14px 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .result-btn:hover { border-color: var(--paper); color: var(--paper); }
+  .result-btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  .result-btn.primary:hover { background: #a33a0c; border-color: #a33a0c; }
+
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--accent);
+    color: white;
+    padding: 14px 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: transform 0.3s;
+    z-index: 1000;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Feedback FAB + Modal */
+  .fab-feedback {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    z-index: 90;
+    box-shadow: 0 6px 20px rgba(193,68,14,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .fab-feedback:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(193,68,14,0.5);
+  }
+  .fab-feedback svg { width: 14px; height: 14px; flex-shrink: 0; }
+  @media (max-width: 600px) {
+    .fab-feedback { bottom: 16px; right: 16px; padding: 10px 14px; }
+    .fab-feedback span { display: none; }
+  }
+
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(6px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 24px;
+  }
+  .modal-backdrop.show { display: flex; animation: fadeBackdrop 0.25s; }
+  @keyframes fadeBackdrop { from { opacity: 0; } to { opacity: 1; } }
+
+  .modal {
+    background: var(--deep);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 36px;
+    max-width: 520px;
+    width: 100%;
+    position: relative;
+    animation: fadeUp 0.3s;
+  }
+  @media (max-width: 600px) { .modal { padding: 28px 22px; } }
+  .modal-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    color: var(--paper);
+    margin-bottom: 8px;
+  }
+  .modal-includes {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+    color: rgba(245,240,232,0.4);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .modal-textarea {
+    width: 100%;
+    min-height: 140px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--paper);
+    padding: 14px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    resize: vertical;
+    margin-bottom: 16px;
+  }
+  .modal-textarea:focus { outline: none; border-color: var(--glow); }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+  .modal-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: transparent;
+    color: rgba(245,240,232,0.7);
+  }
+  .modal-btn:hover { color: var(--paper); border-color: rgba(255,255,255,0.4); }
+  .modal-btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  .modal-btn.primary:hover { background: #a33a0c; border-color: #a33a0c; }
+  .modal-close {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: transparent;
+    border: none;
+    color: rgba(245,240,232,0.5);
+    cursor: pointer;
+    font-size: 1.4rem;
+    width: 32px; height: 32px;
+    line-height: 1;
+  }
+  .modal-close:hover { color: var(--paper); }
+
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.3);
+    text-align: center;
+    padding: 60px 40px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+  }
+  footer strong {
+    color: rgba(255,255,255,0.6);
+    display: block;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  footer .footer-links {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  footer .footer-links a {
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+  footer .footer-links a:hover { color: var(--glow); }
+  footer .footer-meta {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.25);
+    line-height: 1.9;
+  }
+  footer .footer-meta a {
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.25s;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 1px;
+  }
+  footer .footer-meta a:hover { color: var(--glow); border-color: var(--glow); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+  @keyframes extend {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1); }
+  }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s, transform 0.7s; }
+  .revealed { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) { .types-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) {
+    .intro { grid-template-columns: 1fr; gap: 40px; padding: 80px 24px; }
+    .axes-grid { grid-template-columns: 1fr; }
+    .options-grid { grid-template-columns: 1fr; }
+    .section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .types-section, .quiz-section, .axes-section { padding: 80px 24px; }
+  }
+  @media (max-width: 500px) { .types-grid { grid-template-columns: 1fr; } }
+
+  /* ==========================================================
+     📱 Mobile Optimizations — touch, safe-area, small screens
+     ========================================================== */
+
+  /* Touch / pointer-coarse devices: no crosshair, friendlier tap */
+  @media (hover: none), (pointer: coarse) {
+    body { cursor: default; }
+    .quadrant-dot:hover { transform: translate(-50%, -50%); }
+    .type-card:hover { transform: none; }
+    .type-card:hover::after { transform: translateY(100%); }
+    .type-card:hover .type-code,
+    .type-card:hover .type-name,
+    .type-card:hover .type-tagline,
+    .type-card:hover .type-traits { color: inherit; }
+    .option-btn:hover { transform: none; }
+    .option-btn:active {
+      background: rgba(255,255,255,0.08);
+      border-color: var(--glow);
+      color: var(--paper);
+    }
+    .cta-primary:hover, .cta-secondary:hover,
+    .next-btn:hover, .result-btn:hover, .modal-btn:hover,
+    .fab-feedback:hover {
+      transform: none; box-shadow: none;
+    }
+  }
+
+  /* Remove default tap highlight; keep subtle one for buttons */
+  * { -webkit-tap-highlight-color: transparent; }
+  button, a, .type-card, .axis-card, .option-btn, .lang-btn {
+    -webkit-tap-highlight-color: rgba(193,68,14,0.15);
+  }
+
+  /* Prevent iOS Safari auto-zoom on focus */
+  @media (max-width: 768px) {
+    textarea, input, select { font-size: 16px; }
+  }
+
+  /* Safe-area insets (notched phones, home indicator) */
+  @supports (padding: env(safe-area-inset-top)) {
+    .nav {
+      padding-top: max(12px, env(safe-area-inset-top));
+      padding-left: max(16px, env(safe-area-inset-left));
+      padding-right: max(16px, env(safe-area-inset-right));
+    }
+    .fab-feedback {
+      bottom: max(20px, env(safe-area-inset-bottom));
+      right: max(20px, env(safe-area-inset-right));
+    }
+    footer {
+      padding-bottom: calc(60px + env(safe-area-inset-bottom));
+    }
+  }
+
+  /* Tablets / large phones */
+  @media (max-width: 768px) {
+    .nav { padding: 12px 16px; gap: 12px; }
+    .nav-logo { font-size: 1rem; }
+    .nav-right { gap: 12px; }
+  }
+
+  /* Phones */
+  @media (max-width: 600px) {
+    /* Hero */
+    .hero-badge { font-size: 0.58rem; padding: 5px 12px; margin-bottom: 28px; letter-spacing: 0.3em; }
+    .hero-title { font-size: clamp(3.5rem, 18vw, 6.4rem); white-space: nowrap; }
+    .hero-sub { font-size: 0.95rem; letter-spacing: 0.12em; margin-top: 18px; }
+    .hero-desc { font-size: 0.78rem; padding: 0 24px; line-height: 1.7; margin-top: 16px; }
+    .hero-cta { gap: 10px; padding: 0 24px; margin-top: 36px; width: 100%; flex-direction: row; }
+    .cta-btn { flex: 1; padding: 14px 12px; font-size: 0.62rem; letter-spacing: 0.2em; text-align: center; }
+    .scroll-cue { bottom: 24px; font-size: 0.55rem; }
+    .scroll-cue::after { height: 28px; }
+
+    /* Intro */
+    .intro { padding: 64px 22px; gap: 36px; }
+    .intro h2 { font-size: 1.65rem; line-height: 1.2; }
+    .intro-visual { height: 260px; }
+    .axis-diagram { width: 220px; height: 220px; }
+
+    /* Axes */
+    .axes-section { padding: 60px 22px; }
+    .section-header { margin-bottom: 40px; }
+    .axis-card { padding: 28px 22px; }
+    .axis-num { font-size: 2.4rem; margin-bottom: 10px; }
+    .axis-name { font-size: 0.95rem; }
+    .axis-desc { font-size: 0.78rem; }
+
+    /* Types */
+    .types-section { padding: 60px 22px; }
+    .types-intro { margin-bottom: 40px; }
+    .types-intro h2 { font-size: 1.7rem !important; }
+    .types-intro p { font-size: 0.85rem; }
+    .type-card { padding: 24px 20px; }
+    .type-name { font-size: 1.15rem; }
+    .type-tagline { font-size: 0.75rem; min-height: auto; margin-bottom: 14px; }
+
+    /* Quiz */
+    .quiz-section { padding: 60px 18px; min-height: auto; }
+    .quiz-header { margin-bottom: 36px; }
+    .quiz-header h2 { font-size: 1.7rem; }
+    .quiz-progress { margin-bottom: 28px; }
+    .question-box { padding: 26px 20px; margin-bottom: 14px; }
+    .q-axis { font-size: 0.55rem; margin-bottom: 14px; }
+    .q-text { font-size: 1.05rem; line-height: 1.65; }
+    .option-btn { padding: 16px 18px; font-size: 0.84rem; }
+    .quiz-actions { flex-direction: column-reverse; gap: 10px; margin-top: 14px; }
+    .quiz-actions .next-btn { padding: 16px; font-size: 0.78rem; letter-spacing: 0.18em; }
+    .quiz-actions .back-btn { padding: 12px; font-size: 0.6rem; }
+
+    /* Result */
+    .result-box { padding: 36px 18px; }
+    .result-code-display { font-size: 0.62rem; letter-spacing: 0.4em; }
+    .result-glyph { width: 64px; height: 64px; }
+    .result-glyph svg { width: 64px !important; height: 64px !important; }
+    .result-name { font-size: 2.4rem; }
+    .result-tagline { font-size: 0.95rem; margin-bottom: 32px; }
+    .result-axes { gap: 8px; margin-bottom: 28px; }
+    .result-axis-tag { font-size: 0.6rem; padding: 6px 10px; letter-spacing: 0.1em; }
+    .score-bars { margin-bottom: 32px; }
+    .score-bar-row { margin-bottom: 22px; }
+    .score-bar-labels { font-size: 0.55rem; letter-spacing: 0.15em; }
+    .result-section { margin: 24px auto; padding-top: 24px; }
+    .result-section-label { font-size: 0.55rem; letter-spacing: 0.32em; margin-bottom: 12px; }
+    .result-desc { font-size: 0.86rem; line-height: 1.85; }
+    .career-tag { font-size: 0.6rem; padding: 5px 10px; }
+    .shadow-card { padding: 18px 20px; }
+    .result-actions { flex-direction: column; gap: 10px; margin-top: 36px; }
+    .result-actions .result-btn { width: 100%; padding: 14px; font-size: 0.62rem; }
+
+    /* Footer */
+    footer { padding: 48px 20px; }
+    footer .footer-links { gap: 18px; }
+    footer .footer-meta { margin-top: 22px; padding-top: 16px; }
+
+    /* Modal */
+    .modal-title { font-size: 1.2rem; }
+    .modal-textarea { min-height: 120px; font-size: 16px; }
+    .modal-actions { flex-direction: column-reverse; gap: 8px; }
+    .modal-actions .modal-btn { width: 100%; padding: 14px; }
+
+    /* Toast */
+    .toast { bottom: 88px; font-size: 0.62rem; padding: 12px 18px; max-width: calc(100vw - 40px); text-align: center; }
+  }
+
+  /* Small phones (≤ 380px, e.g. iPhone SE 1st gen) */
+  @media (max-width: 380px) {
+    .nav { padding: 10px 12px; gap: 8px; }
+    .nav-logo { font-size: 0.9rem; }
+    .lang-btn { padding: 5px 7px; font-size: 0.58rem; letter-spacing: 0.1em; }
+    .hero-badge { font-size: 0.52rem; padding: 4px 10px; margin-bottom: 24px; }
+    .hero-title { font-size: 4rem; }
+    .hero-sub { font-size: 0.88rem; }
+    .hero-desc { font-size: 0.74rem; padding: 0 18px; }
+    .hero-cta { padding: 0 18px; gap: 8px; }
+    .cta-btn { padding: 13px 8px; font-size: 0.58rem; letter-spacing: 0.15em; }
+    .intro h2, .quiz-header h2, .types-intro h2 { font-size: 1.5rem !important; }
+    .result-name { font-size: 2rem; }
+  }
+
+  /* Landscape phones — keep hero compact, free up vertical space */
+  @media (max-height: 500px) and (orientation: landscape) {
+    .hero { min-height: auto; padding: 90px 20px 60px; }
+    .hero-title { font-size: 5rem; }
+    .scroll-cue { display: none; }
+    .quiz-section { min-height: auto; padding: 80px 24px; }
+    .intro { padding: 80px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-logo">FL<span>U</span>X</div>
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#intro" data-i18n="nav.intro">理念</a>
+      <a href="#axes" data-i18n="nav.axes">轴线</a>
+      <a href="#types" data-i18n="nav.types">流态</a>
+      <a href="#quiz" data-i18n="nav.quiz">测试</a>
+      <a href="https://github.com" id="navGitHub" target="_blank" rel="noopener">GitHub</a>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button class="lang-btn" data-lang="zh-CN">中</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ja">日</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="grid-bg"></div>
+  <div class="particles" id="particles"></div>
+  <div class="hero-badge" data-i18n="hero.badge">次世代人格框架 · 2026</div>
+  <h1 class="hero-title">FL<span>U</span>X</h1>
+  <p class="hero-sub" data-i18n="hero.sub">流态人格系统</p>
+  <p class="hero-desc" data-i18n-html="hero.desc">人格不是盒子，而是河流。<br>FLUX 用三轴六维，捕捉你在时间与压力中真实流动的模式。</p>
+  <div class="hero-cta">
+    <a href="#quiz" class="cta-btn cta-primary" data-i18n="hero.ctaPrimary">开始测试 →</a>
+    <a href="#intro" class="cta-btn cta-secondary" data-i18n="hero.ctaSecondary">了解理念</a>
+  </div>
+  <div class="scroll-cue" data-i18n="hero.scrollCue">向下探索</div>
+</section>
+
+<section class="intro" id="intro">
+  <div class="reveal">
+    <div class="intro-label" data-i18n="intro.label">为什么需要新系统</div>
+    <h2 data-i18n-html="intro.h2">MBTI 把人钉死了，<br>FLUX 让你流动。</h2>
+    <p style="margin-top:20px;color:var(--mist);line-height:1.85;font-size:0.9rem;" data-i18n-html="intro.p1">
+      MBTI 诞生于 1943 年，基于荣格的二元对立理论。但现代神经科学告诉我们：人格是<strong>情境性的、动态的、连续谱系的</strong>。
+      你在压力下和放松时是不同的人。FLUX 测量的，是你在<em>变化中保持的核心模式</em>。
+    </p>
+    <p style="margin-top:16px;color:var(--mist);line-height:1.85;font-size:0.9rem;" data-i18n-html="intro.p2">
+      三条轴线 · 六个极点 · <strong>八种核心流态</strong>，在每个核心流态中你的位置都是连续的——
+      你不是某个类型，你是<em>某个坐标的瞬时切片</em>。
+    </p>
+  </div>
+  <div class="intro-visual reveal">
+    <div class="axis-diagram">
+      <div class="axis-line axis-h"></div>
+      <div class="axis-line axis-v"></div>
+      <div class="axis-label" style="top:46%;left:52%;transform:none" data-i18n="diagram.adaptive">情境适应</div>
+      <div class="axis-label" style="top:46%;right:52%;transform:none;text-align:right" data-i18n="diagram.instinctive">本能驱动</div>
+      <div class="axis-label" style="top:4%;left:50%;transform:translateX(-50%)" data-i18n="diagram.outward">外向聚焦</div>
+      <div class="axis-label" style="bottom:4%;left:50%;transform:translateX(-50%)" data-i18n="diagram.inward">内向聚焦</div>
+      <div class="quadrant-dot" style="top:25%;left:30%;background:#c1440e;opacity:0.8;"></div>
+      <div class="quadrant-dot" style="top:35%;left:65%;background:#4fc3f7;opacity:0.8;"></div>
+      <div class="quadrant-dot" style="top:60%;left:25%;background:#c9a84c;opacity:0.8;"></div>
+      <div class="quadrant-dot" style="top:70%;left:70%;background:#8a9ba8;opacity:0.8;"></div>
+      <div class="quadrant-dot" style="top:50%;left:50%;background:#f5f0e8;opacity:0.9;width:16px;height:16px;"></div>
+      <div class="quadrant-dot" style="top:20%;left:55%;background:#c1440e;opacity:0.5;"></div>
+      <div class="quadrant-dot" style="top:75%;left:40%;background:#4fc3f7;opacity:0.5;"></div>
+      <div class="quadrant-dot" style="top:55%;left:78%;background:#c9a84c;opacity:0.6;"></div>
+      <div class="quadrant-dot" style="top:15%;left:35%;background:#8a9ba8;opacity:0.6;"></div>
+    </div>
+  </div>
+</section>
+
+<section class="axes-section" id="axes">
+  <div class="axes-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-label" data-i18n="axes.label">核心维度</div>
+        <h2 class="section-title" data-i18n="axes.title">三条轴线，六个极点</h2>
+      </div>
+    </div>
+    <div class="axes-grid reveal" id="axesGrid"></div>
+  </div>
+</section>
+
+<section class="types-section" id="types">
+  <div class="types-inner">
+    <div class="types-intro reveal">
+      <div class="intro-label" data-i18n="typesSection.label">八种核心流态</div>
+      <h2 style="font-family:'Raleway',sans-serif;font-weight:700;font-size:clamp(2rem,4vw,3rem);color:var(--deep);" data-i18n="typesSection.title">你是哪一种流态？</h2>
+      <p data-i18n="typesSection.intro">每种流态都是三轴组合的真实存在，不是类比，不是星座。下方展示全部 8 种核心流态。</p>
+    </div>
+    <div class="types-grid reveal" id="typesGrid"></div>
+  </div>
+</section>
+
+<section class="quiz-section" id="quiz">
+  <div class="quiz-inner">
+    <div class="quiz-header">
+      <div class="section-label" data-i18n="quiz.label">人格测试</div>
+      <h2 data-i18n="quiz.title">发现你的流态</h2>
+      <p style="color:rgba(245,240,232,0.4);font-size:0.85rem;margin-top:12px;font-family:'Space Mono',monospace;" data-i18n="quiz.sub">9 个情境 · 三条轴线 · 约 3 分钟</p>
+    </div>
+    <div class="quiz-progress" id="quizProgress"></div>
+    <div id="quizContainer">
+      <div class="question-box">
+        <div class="q-axis" id="qAxis"></div>
+        <div class="q-text" id="qText"></div>
+      </div>
+      <div class="options-grid" id="optionsGrid"></div>
+      <div class="quiz-actions">
+        <button class="back-btn" id="backBtn" onclick="prevQuestion()" data-i18n="quiz.prev">← 上一题</button>
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()" data-i18n="quiz.next">下一题 →</button>
+      </div>
+    </div>
+    <div class="result-box" id="resultBox">
+      <div class="result-code-display" id="resultCode"></div>
+      <div id="resultGlyph" class="result-glyph"></div>
+      <div class="result-name" id="resultName"></div>
+      <div class="result-tagline" id="resultTagline"></div>
+      <div class="result-axes" id="resultAxes"></div>
+      <div class="score-bars" id="scoreBars"></div>
+      <div class="result-section">
+        <div class="result-section-label" data-i18n="result.sectionDesc">深度解读</div>
+        <p class="result-desc" id="resultDesc"></p>
+      </div>
+      <div class="result-section">
+        <div class="result-section-label" data-i18n="result.sectionStrengths">核心优势</div>
+        <div class="trait-list" id="resultStrengths"></div>
+      </div>
+      <div class="result-section">
+        <div class="result-section-label" data-i18n="result.sectionShadows">阴影面 · 需要警惕</div>
+        <div class="trait-list" id="resultShadows"></div>
+      </div>
+      <div class="result-section">
+        <div class="result-section-label" data-i18n="result.sectionCareers">适配的领域</div>
+        <div class="career-grid" id="resultCareers"></div>
+      </div>
+      <div class="result-section">
+        <div class="result-section-label" data-i18n="result.sectionGrowth">成长建议</div>
+        <p class="result-desc" id="resultGrowth"></p>
+      </div>
+      <div class="result-section">
+        <div class="result-section-label" data-i18n="result.sectionShadow">你的镜像 · 阴影流态</div>
+        <div class="shadow-card" id="shadowCard"></div>
+      </div>
+      <div class="result-actions">
+        <button class="result-btn primary" id="btnShare" onclick="shareResult()" data-i18n="result.btnShare">复制分享链接</button>
+        <button class="result-btn" id="btnCopy" onclick="copyResultText()" data-i18n="result.btnCopy">复制结果文字</button>
+        <button class="result-btn" id="btnReset" onclick="resetQuiz()" data-i18n="result.btnReset">↺ 重新测试</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>FLUX</strong>
+  <span data-i18n="footer.desc">基于动态人格理论 · 非二元，非静态 · 2026</span>
+  <br><br>
+  <span data-i18n="footer.motto">人格是河流，不是容器。</span>
+  <div class="footer-links">
+    <a href="https://github.com" id="footerGitHub" target="_blank" rel="noopener" data-i18n="footer.linkSource">开源代码</a>
+    <a href="#intro" data-i18n="footer.linkAbout">关于</a>
+    <a href="#quiz" data-i18n="footer.linkStart">开始测试</a>
+  </div>
+  <div class="footer-meta">
+    <span data-i18n="footer.copyright">© 2026 HAPPY Games · All Rights Reserved</span>
+    <br>
+    <span data-i18n="footer.licensePrefix">Code</span>
+    <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT</a>
+    ·
+    <span data-i18n="footer.licenseContent">Content</span>
+    <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>
+  </div>
+</footer>
+
+<button class="fab-feedback" id="fabFeedback" onclick="openFeedback()" aria-label="Feedback">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <span data-i18n="feedback.fabLabel">Bug 反馈</span>
+</button>
+
+<div class="modal-backdrop" id="feedbackModal" role="dialog" aria-modal="true">
+  <div class="modal">
+    <button class="modal-close" onclick="closeFeedback()" aria-label="Close">×</button>
+    <div class="modal-title" data-i18n="feedback.title">反馈 Bug 或建议</div>
+    <div class="modal-includes" data-i18n="feedback.includes">提交时会附带语言、URL、人格类型与浏览器信息，便于复现问题。</div>
+    <textarea class="modal-textarea" id="feedbackText" data-i18n-placeholder="feedback.placeholder" placeholder="请详细描述..."></textarea>
+    <div class="modal-actions">
+      <button class="modal-btn" onclick="closeFeedback()" data-i18n="feedback.cancel">取消</button>
+      <button class="modal-btn primary" onclick="sendFeedback()" data-i18n="feedback.send">通过邮件发送 →</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==========================================================
+   FLUX i18n 字典 — 简体中文 / English / 日本語
+   ========================================================== */
+const I18N = {
+  'zh-CN': {
+    name: '简体中文', label: '中', htmlLang: 'zh-CN',
+    meta: {
+      title: 'FLUX · 流态人格系统 | 比 MBTI 更动态的人格框架',
+      description: 'FLUX 是一套基于动态人格理论的次世代人格框架，用三条轴线（SPARK / FRAME / MOVE）刻画你在时间与压力中真实流动的模式。8 种核心流态，9 道情境题，约 3 分钟。',
+      ogTitle: 'FLUX · 流态人格系统',
+      ogDesc: '人格不是盒子，而是河流。FLUX 用三轴六维，捕捉你在时间与压力中真实流动的模式。',
+      twDesc: '比 MBTI 更动态的人格框架。8 种流态，9 道题，3 分钟。'
+    },
+    nav: { intro: '理念', axes: '轴线', types: '流态', quiz: '测试' },
+    hero: {
+      badge: '次世代人格框架 · 2026',
+      sub: '流态人格系统',
+      desc: '人格不是盒子，而是河流。<br>FLUX 用三轴六维，捕捉你在时间与压力中真实流动的模式。',
+      ctaPrimary: '开始测试 →',
+      ctaSecondary: '了解理念',
+      scrollCue: '向下探索'
+    },
+    intro: {
+      label: '为什么需要新系统',
+      h2: 'MBTI 把人钉死了，<br>FLUX 让你流动。',
+      p1: 'MBTI 诞生于 1943 年，基于荣格的二元对立理论。但现代神经科学告诉我们：人格是<strong>情境性的、动态的、连续谱系的</strong>。你在压力下和放松时是不同的人。FLUX 测量的，是你在<em>变化中保持的核心模式</em>。',
+      p2: '三条轴线 · 六个极点 · <strong>八种核心流态</strong>，在每个核心流态中你的位置都是连续的——你不是某个类型，你是<em>某个坐标的瞬时切片</em>。'
+    },
+    diagram: { adaptive: '情境适应', instinctive: '本能驱动', outward: '外向聚焦', inward: '内向聚焦' },
+    axes: {
+      label: '核心维度', title: '三条轴线，六个极点',
+      cards: [
+        { num: '01', name: '能量来源轴 · SPARK', poleL: '辐射型 R', poleR: '吸收型 A',
+          desc: '你的精力如何充电、如何消耗？<br>辐射型在给予与输出中获得能量；吸收型在接收与内化中蓄力。这不是内外向，而是能量的方向。' },
+        { num: '02', name: '认知处理轴 · FRAME', poleL: '模式型 P', poleR: '细节型 D',
+          desc: '你的大脑优先处理什么？<br>模式型先见森林，用结构理解世界；细节型先见树木，用数据构建真相。压力下哪种模式主导，才是你的真实类型。' },
+        { num: '03', name: '行动倾向轴 · MOVE', poleL: '突破型 B', poleR: '稳固型 S',
+          desc: '面对未知，你倾向于冲破还是守护？<br>突破型以变化为燃料，拥抱不确定性；稳固型以秩序为根基，在熟悉中创造深度。' }
+      ]
+    },
+    typesSection: {
+      label: '八种核心流态', title: '你是哪一种流态？',
+      intro: '每种流态都是三轴组合的真实存在，不是类比，不是星座。下方展示全部 8 种核心流态——你的实际位置，是这些坐标之间的连续光谱。'
+    },
+    quiz: {
+      label: '人格测试', title: '发现你的流态',
+      sub: '9 个情境 · 三条轴线 · 约 3 分钟',
+      prev: '← 上一题', next: '下一题 →', last: '查看结果 →'
+    },
+    result: {
+      codeSuffix: ' · 流态人格',
+      sectionDesc: '深度解读', sectionStrengths: '核心优势',
+      sectionShadows: '阴影面 · 需要警惕', sectionCareers: '适配的领域',
+      sectionGrowth: '成长建议', sectionShadow: '你的镜像 · 阴影流态',
+      dominantSuffix: '主导',
+      shadowDesc: '这是你最不熟悉、却最值得理解的流态。在他们身上，藏着你需要补全的那一面。当你陷入困境时，问自己："如果我是 {name}，我会怎么看？"',
+      btnShare: '复制分享链接', btnCopy: '复制结果文字', btnReset: '↺ 重新测试',
+      shareText: '我在 FLUX 流态人格系统中是【{name}】({code})\n\n{tagline}\n\n{desc}\n\n— 测一测你的流态：{url}'
+    },
+    poles: {
+      R: { full: '辐射型能量 R', abbr: 'R 辐射', trait: '辐射能量' },
+      A: { full: '吸收型能量 A', abbr: 'A 吸收', trait: '吸收能量' },
+      P: { full: '宏观模式 P', abbr: 'P 模式', trait: '宏观模式' },
+      D: { full: '精细细节 D', abbr: 'D 细节', trait: '精细细节' },
+      B: { full: '突破倾向 B', abbr: 'B 突破', trait: '突破边界' },
+      S: { full: '稳固倾向 S', abbr: 'S 稳固', trait: '稳固根基' }
+    },
+    axisFull: {
+      SPARK: 'SPARK · 能量来源', FRAME: 'FRAME · 认知处理', MOVE: 'MOVE · 行动倾向',
+      SPARKQ: 'SPARK 轴 · 能量来源', FRAMEQ: 'FRAME 轴 · 认知处理', MOVEQ: 'MOVE 轴 · 行动倾向'
+    },
+    toasts: { linkCopied: '链接已复制 · 快去分享吧', textCopied: '结果文字已复制', feedbackOpened: '已打开邮件客户端，发送即可' },
+    feedback: {
+      fabLabel: '反馈',
+      title: '反馈 Bug 或建议',
+      includes: '提交时会附带：当前语言、页面 URL、人格类型（如有）、浏览器信息——便于作者复现问题。仅通过你的邮件客户端发送，FLUX 不会保存任何数据。',
+      placeholder: '请详细描述遇到的问题或想法……（也欢迎建议新功能）',
+      send: '通过邮件发送 →',
+      cancel: '取消',
+      empty: '请先填写反馈内容',
+      subject: '[FLUX 反馈]'
+    },
+    footer: {
+      desc: '基于动态人格理论 · 非二元，非静态 · 2026',
+      motto: '人格是河流，不是容器。',
+      linkSource: '开源代码', linkAbout: '关于', linkStart: '开始测试',
+      copyright: '© 2026 HAPPY Games · All Rights Reserved',
+      licensePrefix: 'Code', licenseContent: 'Content'
+    },
+    types: {
+      RPB: { name:'燃火者', tagline:'点燃房间，也点燃自己。<br>无法停止，直到世界跟上。',
+        desc:'你是系统中最强的推进力。你在输出中充电，用宏观视角看世界，并毫不犹豫地打破任何阻碍前进的东西。你天生具有点燃他人的能力——但代价是你必须持续燃烧，否则会陷入空虚。',
+        strengths:['强大的愿景驱动力','感染他人的能量场','在混乱中保持方向','快速决策与执行'],
+        shadows:['容易燃尽自己','忽视细节与执行','低估保守者的智慧','把休息看作软弱'],
+        careers:['创业者','产品负责人','运动教练','社会运动家','前线指挥官'],
+        growth:'学会停下。你的价值不在于持续燃烧，而在于知道何时点燃、何时蓄力。允许自己有一段不输出、不引领、只是存在的时光——你会发现火并没有熄灭，只是更深沉。' },
+      RPS: { name:'领航者', tagline:'掌舵，但从不离船。<br>稳中带劲，让人愿意跟随。',
+        desc:'你知道去哪里，也知道怎么带人到那里。你的能量感染周围，但你选择在成熟的结构中发挥，而不是颠覆它。你是最好的长期合伙人——既有方向感，又有耐心。',
+        strengths:['长期主义视角','稳定的领导力','系统化的执行','建立可持续的影响'],
+        shadows:['可能错过激进创新的窗口','过于注重声誉','对变革者缺乏耐心','决策可能过慢'],
+        careers:['CEO','部门总监','资深教育者','战略顾问','基金管理人'],
+        growth:'允许自己被颠覆一次。你的稳定是优势，也是壁垒。偶尔放下"领航者"的身份，跟随一个比你更激进、更年轻的人——你会发现新的航道。' },
+      RDB: { name:'引爆者', tagline:'用数据点燃革命。<br>最危险的人：既看细节，又打破规则。',
+        desc:'你既不满足于模糊的愿景，也不甘心在既有框架里精进。你要的是用真实数据推动真正的变革——这让你既难以合作，又不可或缺。你的论点无法被反驳，因为它们建立在事实之上。',
+        strengths:['用证据击穿权威','高强度的实证精神','看穿叙事的能力','驱动具体的改革'],
+        shadows:['容易显得攻击性','低估情感与关系','陷入"我对你错"','透支信任额度'],
+        careers:['调查记者','数据科学家','审计师','改革派律师','产品研究员'],
+        growth:'学习温柔的革命。事实是你的武器，但人不是被事实说服的，是被被理解后才接受事实。先建立连接，再展示数据——你的影响会翻倍。' },
+      RDS: { name:'工匠者', tagline:'把细节做到极致，然后分享给世界。<br>完美是一种责任，不是偏执。',
+        desc:'你在输出中获得能量，用精确的细节认知世界，在深耕中找到归属。你不是最高调的人，但你做的东西让人印象深刻十年。你是匠人精神的现代化身——也是被数字时代低估的存在。',
+        strengths:['极致的产出质量','可靠的承诺','建立持久的标准','深度的专业精神'],
+        shadows:['节奏可能太慢','难以容忍粗糙','低估迭代价值','完美主义自我消耗'],
+        careers:['资深工程师','主厨','建筑师','医生','老师'],
+        growth:'学习"足够好"的艺术。完美是一种状态，不是一个固定点。允许 80 分的版本走向世界——你会发现真实的反馈，比想象的完美更有价值。' },
+      APB: { name:'潜流者', tagline:'安静地颠覆，悄悄地革命。<br>改变在你离开后才被察觉。',
+        desc:'你不需要聚光灯。你在沉默中理解全局，在深思后发动变化，然后消失在新的探索中。你的影响比你的存在感更持久——人们记得变化，而忘记是谁带来的。',
+        strengths:['深度的洞察力','不被表象迷惑','安静的颠覆性','长程的战略思维'],
+        shadows:['难以被人理解','容易被边缘化','低估"现身"的力量','陷入孤独'],
+        careers:['思想家','编剧','战略研究员','黑客','哲学家'],
+        growth:'学会偶尔站到聚光灯下。你不需要成为表演者，但你需要让那些被你影响的人，知道你的存在。沉默的颠覆，需要被命名才能延续。' },
+      APS: { name:'织网者', tagline:'在沉默中理解整个系统。<br>知道每个节点如何相互影响。',
+        desc:'你是看不见的基础设施。你在吸收中充电，用模式思维理解世界，在稳定的结构中发挥深远影响。你不急，因为你知道系统的规律。一切都在你心中有图谱。',
+        strengths:['系统级的洞察','长期的稳定输出','极强的耐心','把混乱整理成秩序'],
+        shadows:['可能太被动','错过表达自我的窗口','过度认同他人','害怕主动冲突'],
+        careers:['架构师','组织顾问','运营总监','社会学者','心理治疗师'],
+        growth:'学会主动出招。你看见的系统比大多数人都清晰，但系统不会自我改变——它需要你站出来，至少为它说一次话。' },
+      ADB: { name:'解构者', tagline:'把每件事拆开，再用新方式重组。<br>没有什么是不能被重新理解的。',
+        desc:'你用精确的分析打破既有假设，在独处中积蓄能量，然后以出人意料的方式重构现实。你是最有力的批判性思维者之一——你的存在让平庸感到不安。',
+        strengths:['锋利的批判性思维','看穿假设的能力','独立的判断力','原创性的重构'],
+        shadows:['可能让人感到刺痛','过度怀疑','难以建立信任','陷入永恒的解构'],
+        careers:['研究员','哲学家','逆向工程师','艺术家','调查员'],
+        growth:'学习"建构"的勇气。解构是你的天赋，但世界更需要你接下来做的事——把碎片重组成一个新东西。挑战自己：每解构一个，建造一个。' },
+      ADS: { name:'深渊者', tagline:'安静地，比任何人都深入。<br>世界的表面对你来说不够用。',
+        desc:'你在吸收中充电，用细节认知世界，在深度稳固的专注中创造价值。你可能是领域里最了解某件事的人，但你不需要所有人知道这一点。你的深度本身就是回报。',
+        strengths:['极致的专注力','罕见的深度','细节的完美感知','不依赖外部认可'],
+        shadows:['可能与世界脱节','难以传播价值','过度内化','错过协作机会'],
+        careers:['学者','档案学家','诗人','钟表匠','专科医生'],
+        growth:'学会浮出水面。深度是你的家，但偶尔的浅滩游览会让你的深度更有意义。找一个能听懂你的人，告诉他你看见了什么——这是深度变成礼物的时刻。' }
+    },
+    questions: [
+      { axis:'SPARKQ', text:'一整天的社交活动结束后，你更倾向于……',
+        options:[
+          { text:'再约几个人继续聊，能量满满甚至更兴奋', score:{R:2} },
+          { text:'独处一小时充电，但回忆今天充满正向感受', score:{R:1,A:1} },
+          { text:'需要安静和独处来恢复，然后才能继续输出', score:{A:2} },
+          { text:'完全感到精力耗尽，需要整整一天才能复原', score:{A:2} } ]},
+      { axis:'SPARKQ', text:'你在帮助别人解决问题时，最真实的感受是……',
+        options:[
+          { text:'充满热情，越讲越有劲，感到自己在发光', score:{R:2} },
+          { text:'满足感强，但结束后需要安静消化这次互动', score:{A:2} },
+          { text:'看情况，跟有共鸣的人会兴奋，否则会疲惫', score:{R:1,A:1} },
+          { text:'更喜欢书面帮助，而不是当面的即兴交流', score:{A:2} } ]},
+      { axis:'SPARKQ', text:'理想的周末是……',
+        options:[
+          { text:'排满了活动、聚会和新体验，越丰富越好', score:{R:2} },
+          { text:'一两个深度互动，剩下时间独自做喜欢的事', score:{A:2} },
+          { text:'有计划但留白，随时可以加人也可以退出', score:{R:1} },
+          { text:'完全由自己掌控节奏，不被打扰的创作时间', score:{A:2} } ]},
+      { axis:'FRAMEQ', text:'拿到一个新项目，你第一步是……',
+        options:[
+          { text:'先画框架图，搞清楚整体逻辑和结构', score:{P:2} },
+          { text:'先看细节数据和具体要求，从真实材料出发', score:{D:2} },
+          { text:'两者结合，但更倾向于先感知整体再深入', score:{P:1} },
+          { text:'直接开始执行，边做边形成理解', score:{D:1} } ]},
+      { axis:'FRAMEQ', text:'别人讲一件复杂事情时，你最先注意到的是……',
+        options:[
+          { text:'这件事背后的规律和更大的意义', score:{P:2} },
+          { text:'某个不一致的细节或数字，让你想深究', score:{D:2} },
+          { text:'讲述者的情绪和意图', score:{P:1} },
+          { text:'信息是否完整准确', score:{D:2} } ]},
+      { axis:'FRAMEQ', text:'你学一门新技能时，最自然的方式是……',
+        options:[
+          { text:'先理解它的核心原理，再推导具体应用', score:{P:2} },
+          { text:'直接从案例和练习开始，在操作中归纳规律', score:{D:2} },
+          { text:'看别人怎么做，模仿然后修改', score:{D:1} },
+          { text:'找到这门技能和已知知识的连接点', score:{P:2} } ]},
+      { axis:'MOVEQ', text:'面对一个重大机会，但风险很高，你倾向于……',
+        options:[
+          { text:'先行动，在过程中解决问题，机会不等人', score:{B:2} },
+          { text:'仔细评估后再决定，但会为值得的机会冒险', score:{B:1,S:1} },
+          { text:'需要看到足够的保障才会动，不确定性让我焦虑', score:{S:2} },
+          { text:'改造这个机会，降低风险后再入场', score:{S:2} } ]},
+      { axis:'MOVEQ', text:'你对「改变现状」的态度是……',
+        options:[
+          { text:'改变让我兴奋，越大的变化越有意思', score:{B:2} },
+          { text:'我发起改变，但有明确目的，不是为了变而变', score:{B:1} },
+          { text:'稳定中有精进就够了，不必颠覆', score:{S:2} },
+          { text:'改变需要循序渐进，突然的变化让人不安', score:{S:2} } ]},
+      { axis:'MOVEQ', text:'你最有成就感的时刻是……',
+        options:[
+          { text:'打破了一个从没人动过的惯例，开创了新路', score:{B:2} },
+          { text:'把一件事做到极致，成为那个领域的标准', score:{S:2} },
+          { text:'成功说服别人跟我走进未知领域', score:{B:2} },
+          { text:'在混乱中建立了秩序，让大家可以依赖', score:{S:2} } ]}
+    ]
+  },
+
+  'en': {
+    name: 'English', label: 'EN', htmlLang: 'en',
+    meta: {
+      title: 'FLUX · Fluid Personality System | A More Dynamic Framework Than MBTI',
+      description: 'FLUX is a next-generation personality framework based on dynamic personality theory. Three axes (SPARK / FRAME / MOVE) capture the patterns that truly flow through you. 8 core flow-states, 9 situational questions, ~3 minutes.',
+      ogTitle: 'FLUX · Fluid Personality System',
+      ogDesc: 'Personality is not a box — it is a river. FLUX uses three axes and six poles to map how you really flow through time and pressure.',
+      twDesc: 'A more dynamic framework than MBTI. 8 flow-states, 9 questions, 3 minutes.'
+    },
+    nav: { intro: 'Concept', axes: 'Axes', types: 'Flows', quiz: 'Test' },
+    hero: {
+      badge: 'Next-Gen Personality Framework · 2026',
+      sub: 'Fluid Personality System',
+      desc: 'Personality is not a box — it is a river.<br>FLUX uses three axes and six poles to map how you flow through time and pressure.',
+      ctaPrimary: 'Take the Test →',
+      ctaSecondary: 'Learn More',
+      scrollCue: 'Scroll to Explore'
+    },
+    intro: {
+      label: 'Why a New System',
+      h2: 'MBTI nailed you down.<br>FLUX lets you flow.',
+      p1: 'MBTI was born in 1943, built on Jung\'s binary opposition theory. But modern neuroscience tells us: personality is <strong>contextual, dynamic, and a continuous spectrum</strong>. You are different under stress and at rest. What FLUX measures is <em>the core pattern you keep through change</em>.',
+      p2: 'Three axes · six poles · <strong>eight core flow-states</strong>. Inside each, your position is continuous — you are not a fixed type, you are <em>a momentary slice of a coordinate</em>.'
+    },
+    diagram: { adaptive: 'Adaptive', instinctive: 'Instinctive', outward: 'Outward', inward: 'Inward' },
+    axes: {
+      label: 'Core Dimensions', title: 'Three Axes, Six Poles',
+      cards: [
+        { num: '01', name: 'Energy Source · SPARK', poleL: 'Radiant R', poleR: 'Absorbent A',
+          desc: 'How does your energy charge and discharge?<br>Radiants gain energy by giving and outputting; absorbents accumulate by receiving and internalizing. This is not introversion — it is the direction of energy.' },
+        { num: '02', name: 'Cognition · FRAME', poleL: 'Pattern P', poleR: 'Detail D',
+          desc: 'What does your mind prioritize?<br>Patterners see the forest first, building understanding through structure; detailers see the trees first, constructing truth through data. Whichever dominates under pressure — that is your real type.' },
+        { num: '03', name: 'Action · MOVE', poleL: 'Breaker B', poleR: 'Stabilizer S',
+          desc: 'Facing the unknown, do you break through or guard the gate?<br>Breakers fuel on change and embrace uncertainty; stabilizers anchor on order and create depth in the familiar.' }
+      ]
+    },
+    typesSection: {
+      label: 'Eight Core Flow-States', title: 'Which Flow Are You?',
+      intro: 'Each flow-state is a real combination of the three axes — not analogy, not horoscope. Below are all 8 core flows. Your actual position is a continuous spectrum between these coordinates.'
+    },
+    quiz: {
+      label: 'Personality Test', title: 'Find Your Flow',
+      sub: '9 scenarios · 3 axes · ~3 minutes',
+      prev: '← Back', next: 'Next →', last: 'See Result →'
+    },
+    result: {
+      codeSuffix: ' · Flow-State',
+      sectionDesc: 'Deep Reading', sectionStrengths: 'Core Strengths',
+      sectionShadows: 'Shadow Side · Watch Out', sectionCareers: 'Aligned Domains',
+      sectionGrowth: 'Growth Path', sectionShadow: 'Your Mirror · Shadow Flow',
+      dominantSuffix: 'dominant',
+      shadowDesc: 'This is the flow-state you understand the least, yet most need to understand. In them lives the side of yourself you have yet to integrate. When stuck, ask yourself: "If I were the {name}, how would I see this?"',
+      btnShare: 'Copy Share Link', btnCopy: 'Copy Result Text', btnReset: '↺ Retake',
+      shareText: 'On FLUX I am the【{name}】({code})\n\n{tagline}\n\n{desc}\n\n— Find your flow: {url}'
+    },
+    poles: {
+      R: { full: 'Radiant Energy R', abbr: 'R Radiant', trait: 'Radiant' },
+      A: { full: 'Absorbent Energy A', abbr: 'A Absorbent', trait: 'Absorbent' },
+      P: { full: 'Pattern P', abbr: 'P Pattern', trait: 'Pattern-first' },
+      D: { full: 'Detail D', abbr: 'D Detail', trait: 'Detail-first' },
+      B: { full: 'Breaker B', abbr: 'B Breaker', trait: 'Breaker' },
+      S: { full: 'Stabilizer S', abbr: 'S Stabilizer', trait: 'Stabilizer' }
+    },
+    axisFull: {
+      SPARK: 'SPARK · Energy Source', FRAME: 'FRAME · Cognition', MOVE: 'MOVE · Action',
+      SPARKQ: 'SPARK · Energy Source', FRAMEQ: 'FRAME · Cognition', MOVEQ: 'MOVE · Action'
+    },
+    toasts: { linkCopied: 'Link copied · Share away', textCopied: 'Result text copied', feedbackOpened: 'Email client opened — just hit Send' },
+    feedback: {
+      fabLabel: 'Feedback',
+      title: 'Report a Bug or Suggestion',
+      includes: 'On submit, this includes: current language, page URL, personality type (if taken), browser info — to help the author reproduce. Sent through your own email client; FLUX stores no data.',
+      placeholder: 'Please describe the issue or idea in detail... (feature suggestions are welcome too)',
+      send: 'Send via Email →',
+      cancel: 'Cancel',
+      empty: 'Please fill in feedback content first',
+      subject: '[FLUX Feedback]'
+    },
+    footer: {
+      desc: 'Built on dynamic personality theory · Non-binary, non-static · 2026',
+      motto: 'Personality is a river, not a container.',
+      linkSource: 'Source Code', linkAbout: 'About', linkStart: 'Take Test',
+      copyright: '© 2026 HAPPY Games · All Rights Reserved',
+      licensePrefix: 'Code', licenseContent: 'Content'
+    },
+    types: {
+      RPB: { name:'The Igniter', tagline:'Light up the room — including yourself.<br>Cannot stop until the world catches up.',
+        desc:'You are the strongest forward force in any system. You charge by outputting, see the world in macro patterns, and break without hesitation anything that blocks momentum. Your gift is igniting others — but your cost is needing to keep burning, lest emptiness creep in.',
+        strengths:['Powerful vision-driven energy','Contagious presence','Direction-keeper in chaos','Fast decision and execution'],
+        shadows:['Burning yourself out','Skipping detail and follow-through','Underestimating conservatism','Treating rest as weakness'],
+        careers:['Founder','Product lead','Athletic coach','Activist','Frontline commander'],
+        growth:'Learn to stop. Your value is not constant burning, but knowing when to ignite and when to gather. Allow yourself a season of not-leading, not-outputting, just being — you will find the fire is not gone, only deeper.' },
+      RPS: { name:'The Navigator', tagline:'At the helm, never abandoning ship.<br>Steady fire others want to follow.',
+        desc:'You know where you are going and how to bring people there. Your energy is contagious, but you choose to operate inside mature structures rather than overturn them. You make the best long-term partner — directional and patient.',
+        strengths:['Long-term vision','Stable leadership','Systematic execution','Building sustainable influence'],
+        shadows:['Missing radical-innovation windows','Over-protective of reputation','Impatient with disruptors','Slow decisions'],
+        careers:['CEO','Department head','Senior educator','Strategy consultant','Fund manager'],
+        growth:'Let yourself be disrupted once. Your stability is an asset and a wall. Step out of the navigator role occasionally and follow someone younger, more radical — you will find new currents.' },
+      RDB: { name:'The Detonator', tagline:'Light the revolution with data.<br>Most dangerous: detail-driven and rule-breaking.',
+        desc:'You are unsatisfied with vague visions and unwilling to refine within existing frames. You demand real change driven by real data — which makes you both hard to work with and indispensable. Your arguments cannot be refuted because they rest on fact.',
+        strengths:['Cutting through authority with evidence','High-intensity empiricism','Seeing through narrative','Driving concrete reform'],
+        shadows:['Coming across as aggressive','Underweighting emotion','Falling into "I am right, you are wrong"','Burning trust capital'],
+        careers:['Investigative journalist','Data scientist','Auditor','Reform-minded lawyer','Product researcher'],
+        growth:'Learn the gentle revolution. Facts are your weapon, but people are not persuaded by facts — they are persuaded after they feel understood. Build connection first, then show data — your impact will double.' },
+      RDS: { name:'The Artisan', tagline:'Perfect the detail, then share with the world.<br>Perfection is responsibility, not obsession.',
+        desc:'You charge by outputting, perceive the world through precise detail, and find belonging in deep cultivation. You are not the loudest, but what you make is remembered for a decade. You are craftsmanship modernized — and undervalued by the digital age.',
+        strengths:['Extreme output quality','Reliable commitment','Building lasting standards','Deep professionalism'],
+        shadows:['Pace can be slow','Cannot tolerate roughness','Underestimating iteration','Self-consuming perfectionism'],
+        careers:['Senior engineer','Head chef','Architect','Doctor','Teacher'],
+        growth:'Learn the art of "good enough." Perfection is a state, not a fixed point. Let an 80-percent version meet the world — you will find real feedback more valuable than imagined perfection.' },
+      APB: { name:'The Undercurrent', tagline:'Quietly subverting, silently revolutionizing.<br>Change is noticed only after you have left.',
+        desc:'You do not need the spotlight. You understand the whole in silence, launch change after deep thought, and disappear into new exploration. Your influence outlasts your visibility — people remember the change and forget who brought it.',
+        strengths:['Deep insight','Unfooled by surface','Quiet subversion','Long-range strategic thinking'],
+        shadows:['Hard to be understood','Easily marginalized','Underestimating presence','Falling into isolation'],
+        careers:['Thinker','Screenwriter','Strategy researcher','Hacker','Philosopher'],
+        growth:'Learn to step into the spotlight occasionally. You do not need to perform, but those you have influenced deserve to know you exist. Silent subversion needs to be named to continue.' },
+      APS: { name:'The Weaver', tagline:'In silence, understanding the entire system.<br>Knowing how every node touches the rest.',
+        desc:'You are the invisible infrastructure. You charge by absorbing, see the world in patterns, and create deep impact within stable structures. You are not in a hurry, because you understand the system. Everything has a map in your mind.',
+        strengths:['System-level insight','Long-term steady output','Extraordinary patience','Turning chaos into order'],
+        shadows:['Can be too passive','Missing windows of expression','Over-identifying with others','Avoiding active conflict'],
+        careers:['Architect','Org consultant','Operations director','Sociologist','Therapist'],
+        growth:'Learn to make the first move. The system you see is clearer than what most can see — but systems do not change themselves. They need you to step out and speak, at least once.' },
+      ADB: { name:'The Deconstructor', tagline:'Take everything apart, reassemble in new ways.<br>Nothing is exempt from being re-understood.',
+        desc:'You break existing assumptions with precise analysis, gather energy in solitude, and reconstruct reality in unexpected ways. You are one of the most powerful critical thinkers — your presence makes mediocrity uncomfortable.',
+        strengths:['Sharp critical thinking','Seeing through assumptions','Independent judgment','Original reconstruction'],
+        shadows:['Can sting people','Over-skepticism','Hard to build trust','Trapped in eternal deconstruction'],
+        careers:['Researcher','Philosopher','Reverse engineer','Artist','Investigator'],
+        growth:'Learn the courage to construct. Deconstruction is your gift, but the world needs what comes next — reassembling pieces into something new. Challenge yourself: for every thing you take apart, build one.' },
+      ADS: { name:'The Abyssal', tagline:'Quietly, deeper than anyone.<br>The world\'s surface is not enough for you.',
+        desc:'You charge by absorbing, perceive the world through detail, and create value in deep, anchored focus. You may be the person who knows the most about something in your field — and you do not need everyone to know it. Your depth is its own reward.',
+        strengths:['Extreme focus','Rare depth','Perfect detail perception','Independent of external validation'],
+        shadows:['Can lose touch with the world','Hard to spread your value','Over-internalization','Missing collaboration'],
+        careers:['Scholar','Archivist','Poet','Watchmaker','Specialist physician'],
+        growth:'Learn to surface. Depth is your home, but a visit to the shallows makes your depth more meaningful. Find one person who can hear you, and tell them what you have seen — that is when depth becomes a gift.' }
+    },
+    questions: [
+      { axis:'SPARKQ', text:'After a full day of social activity, you most want to…',
+        options:[
+          { text:'Find more people and keep going — even more energized', score:{R:2} },
+          { text:'Recharge alone for an hour, but glow with positive memories', score:{R:1,A:1} },
+          { text:'Need quiet solitude to recover before producing again', score:{A:2} },
+          { text:'Feel completely drained — need a full day to recover', score:{A:2} } ]},
+      { axis:'SPARKQ', text:'When helping someone solve a problem, your truest feeling is…',
+        options:[
+          { text:'Full of passion — the longer I talk the more I shine', score:{R:2} },
+          { text:'Deeply satisfied, but I need quiet afterward to digest it', score:{A:2} },
+          { text:'Depends — alive with kindred minds, drained otherwise', score:{R:1,A:1} },
+          { text:'Prefer written help over real-time conversation', score:{A:2} } ]},
+      { axis:'SPARKQ', text:'Your ideal weekend looks like…',
+        options:[
+          { text:'Packed with events, gatherings, new experiences', score:{R:2} },
+          { text:'One or two deep interactions, the rest doing things I love alone', score:{A:2} },
+          { text:'Planned but with white space — easy to add or exit people', score:{R:1} },
+          { text:'Fully self-paced creative time, undisturbed', score:{A:2} } ]},
+      { axis:'FRAMEQ', text:'Given a new project, your first move is…',
+        options:[
+          { text:'Sketch the framework — make sense of the whole structure', score:{P:2} },
+          { text:'Look at the actual data and requirements first', score:{D:2} },
+          { text:'Both, but lean toward sensing the whole before diving in', score:{P:1} },
+          { text:'Just start doing — understanding emerges through action', score:{D:1} } ]},
+      { axis:'FRAMEQ', text:'When someone explains a complex thing, you first notice…',
+        options:[
+          { text:'The pattern behind it and its larger meaning', score:{P:2} },
+          { text:'A specific inconsistency or number you want to chase', score:{D:2} },
+          { text:'The speaker\'s emotion and intention', score:{P:1} },
+          { text:'Whether the information is complete and accurate', score:{D:2} } ]},
+      { axis:'FRAMEQ', text:'When learning a new skill, your most natural way is…',
+        options:[
+          { text:'Grasp the core principle, then derive applications', score:{P:2} },
+          { text:'Start with cases and exercises, induce patterns from doing', score:{D:2} },
+          { text:'Watch others do it, imitate, then modify', score:{D:1} },
+          { text:'Find connections between this skill and what I already know', score:{P:2} } ]},
+      { axis:'MOVEQ', text:'Faced with a major opportunity at high risk, you tend to…',
+        options:[
+          { text:'Move first, solve in motion — opportunity does not wait', score:{B:2} },
+          { text:'Evaluate carefully, but take risks for the right one', score:{B:1,S:1} },
+          { text:'Need enough safety before moving — uncertainty makes me anxious', score:{S:2} },
+          { text:'Reshape the opportunity to lower risk before entering', score:{S:2} } ]},
+      { axis:'MOVEQ', text:'Your attitude toward "changing the status quo" is…',
+        options:[
+          { text:'Change excites me — bigger the better', score:{B:2} },
+          { text:'I drive change but with clear purpose, not for its own sake', score:{B:1} },
+          { text:'Refinement within stability is enough — no need to overturn', score:{S:2} },
+          { text:'Change should be gradual; sudden shifts unsettle me', score:{S:2} } ]},
+      { axis:'MOVEQ', text:'Your most fulfilling moment is when you…',
+        options:[
+          { text:'Broke a never-touched convention and forged a new path', score:{B:2} },
+          { text:'Took something to the extreme and became the standard', score:{S:2} },
+          { text:'Convinced others to follow you into the unknown', score:{B:2} },
+          { text:'Built order out of chaos that others could rely on', score:{S:2} } ]}
+    ]
+  },
+
+  'ja': {
+    name: '日本語', label: '日', htmlLang: 'ja',
+    meta: {
+      title: 'FLUX · 流型人格システム | MBTIより動的な人格フレームワーク',
+      description: 'FLUX は動的人格理論に基づく次世代の人格フレームワーク。三つの軸（SPARK / FRAME / MOVE）であなたが時間と圧力の中で本当に流れているパターンを捉える。8 つの核流型、9 問のシナリオ、約 3 分。',
+      ogTitle: 'FLUX · 流型人格システム',
+      ogDesc: '人格は箱ではなく、川である。FLUX は三軸六極であなたの流れを描き出す。',
+      twDesc: 'MBTIより動的な人格フレームワーク。8 流型、9 問、3 分。'
+    },
+    nav: { intro: '理念', axes: '軸', types: '流型', quiz: '診断' },
+    hero: {
+      badge: '次世代人格フレームワーク · 2026',
+      sub: '流型人格システム',
+      desc: '人格は箱ではなく、川である。<br>FLUX は三軸六極で、時間と圧力の中で本当に流れるあなたを捉える。',
+      ctaPrimary: '診断を始める →',
+      ctaSecondary: '理念を読む',
+      scrollCue: '下へ探索'
+    },
+    intro: {
+      label: 'なぜ新しい体系が必要か',
+      h2: 'MBTI は人を箱に閉じ込める。<br>FLUX は人を流れさせる。',
+      p1: 'MBTI は 1943 年生まれ、ユングの二元対立に基づく。だが現代の脳科学はこう告げる——人格は<strong>状況的・動的・連続的</strong>であると。圧力下のあなたとくつろぐあなたは別人だ。FLUX が測るのは、<em>変化の中で保たれる核のパターン</em>。',
+      p2: '三つの軸 · 六つの極 · <strong>八つの核流型</strong>。それぞれの中で、あなたの位置は連続的だ——あなたは固定された型ではなく、<em>ある座標の瞬間の切片</em>だ。'
+    },
+    diagram: { adaptive: '状況適応', instinctive: '本能駆動', outward: '外向焦点', inward: '内向焦点' },
+    axes: {
+      label: '核となる次元', title: '三つの軸、六つの極',
+      cards: [
+        { num: '01', name: 'エネルギー源 · SPARK', poleL: '放射型 R', poleR: '吸収型 A',
+          desc: 'あなたのエネルギーはどう充電・消費される？<br>放射型は与え出すことで充電し、吸収型は受け入れ内化することで蓄える。これは内外向ではなく、エネルギーの方向の話。' },
+        { num: '02', name: '認知処理 · FRAME', poleL: 'パターン型 P', poleR: 'ディテール型 D',
+          desc: 'あなたの脳はまず何を処理する？<br>パターン型は森を先に見て、構造で世界を理解する。ディテール型は木を先に見て、データで真実を組み立てる。圧力下で支配する側が、本当の型だ。' },
+        { num: '03', name: '行動傾向 · MOVE', poleL: '突破型 B', poleR: '安定型 S',
+          desc: '未知に対し、突き破るか守るか？<br>突破型は変化を燃料にし、不確実性を受け入れる。安定型は秩序を基盤にし、慣れ親しんだ中で深さを生む。' }
+      ]
+    },
+    typesSection: {
+      label: '八つの核流型', title: 'あなたはどの流型か？',
+      intro: 'どの流型も三軸の組み合わせの実在——比喩でも星座でもない。下に 8 つの核流型を示す。あなたの実際の位置は、これらの座標の間の連続スペクトル。'
+    },
+    quiz: {
+      label: '人格診断', title: 'あなたの流型を見つける',
+      sub: '9 シナリオ · 3 軸 · 約 3 分',
+      prev: '← 前へ', next: '次へ →', last: '結果を見る →'
+    },
+    result: {
+      codeSuffix: ' · 流型人格',
+      sectionDesc: '深層の解読', sectionStrengths: '核となる強み',
+      sectionShadows: '影の側面 · 注意点', sectionCareers: '相性のある領域',
+      sectionGrowth: '成長への道', sectionShadow: 'あなたの鏡 · 影の流型',
+      dominantSuffix: '優勢',
+      shadowDesc: 'これはあなたが最も馴染みがなく、しかし最も理解する価値がある流型。彼らの中に、あなたが補うべき側面が眠っている。行き詰まったとき、自分に問いかけよう——「もし私が{name}なら、どう見るだろうか？」',
+      btnShare: 'リンクをコピー', btnCopy: '結果をコピー', btnReset: '↺ もう一度',
+      shareText: 'FLUX 流型人格システムで、私は【{name}】({code})\n\n{tagline}\n\n{desc}\n\n— あなたの流型を見つける：{url}'
+    },
+    poles: {
+      R: { full: '放射型エネルギー R', abbr: 'R 放射', trait: '放射エネルギー' },
+      A: { full: '吸収型エネルギー A', abbr: 'A 吸収', trait: '吸収エネルギー' },
+      P: { full: 'パターン優位 P', abbr: 'P パターン', trait: 'パターン認知' },
+      D: { full: 'ディテール優位 D', abbr: 'D ディテール', trait: 'ディテール認知' },
+      B: { full: '突破傾向 B', abbr: 'B 突破', trait: '突破志向' },
+      S: { full: '安定傾向 S', abbr: 'S 安定', trait: '安定志向' }
+    },
+    axisFull: {
+      SPARK: 'SPARK · エネルギー源', FRAME: 'FRAME · 認知処理', MOVE: 'MOVE · 行動傾向',
+      SPARKQ: 'SPARK 軸 · エネルギー源', FRAMEQ: 'FRAME 軸 · 認知処理', MOVEQ: 'MOVE 軸 · 行動傾向'
+    },
+    toasts: { linkCopied: 'リンクをコピーしました', textCopied: '結果をコピーしました', feedbackOpened: 'メールクライアントを開きました — 送信ボタンを押してください' },
+    feedback: {
+      fabLabel: 'フィードバック',
+      title: 'バグ報告または提案',
+      includes: '送信時に同梱：現在の言語、ページ URL、人格タイプ（診断済みの場合）、ブラウザ情報——再現確認のため。お使いのメールクライアントから送信され、FLUX はデータを保存しません。',
+      placeholder: '問題や提案を詳しくお書きください……（新機能の提案も歓迎します）',
+      send: 'メールで送る →',
+      cancel: 'キャンセル',
+      empty: 'フィードバック内容を入力してください',
+      subject: '[FLUX フィードバック]'
+    },
+    footer: {
+      desc: '動的人格理論に基づく · 非二元、非静的 · 2026',
+      motto: '人格は容器ではなく、川である。',
+      linkSource: 'ソースコード', linkAbout: '概要', linkStart: '診断を始める',
+      copyright: '© 2026 HAPPY Games · All Rights Reserved',
+      licensePrefix: 'Code', licenseContent: 'Content'
+    },
+    types: {
+      RPB: { name:'燃火者', tagline:'部屋に火を灯し、自分も燃やす。<br>世界が追いつくまで止まれない。',
+        desc:'あなたはシステム最強の推進力。発信することで充電し、マクロで世界を捉え、進路を阻むものを躊躇なく壊す。他者を点火する天賦の才——だが代償として、燃え続けねばならない。さもなくば空虚に陥る。',
+        strengths:['強いビジョン駆動力','他者を巻き込む磁場','混沌の中で方向を保つ','素早い意思決定と実行'],
+        shadows:['自分を燃やし尽くしがち','細部と実行を見落とす','保守者の知恵を軽視','休息を弱さと見なす'],
+        careers:['起業家','プロダクト責任者','スポーツコーチ','社会運動家','前線指揮官'],
+        growth:'止まることを学ぶ。価値は燃え続けることではなく、いつ点火し、いつ蓄えるかを知ることにある。出力せず、導かず、ただ存在する季節を許そう——火は消えていない、ただ深くなっただけだ。' },
+      RPS: { name:'領航者', tagline:'舵を握るが、船を離れない。<br>安定の中の力、人がついてくる。',
+        desc:'行き先を知り、人をそこへ連れて行く方法も知っている。エネルギーは周囲を感染させるが、既存の枠を覆すのではなく、その中で発揮することを選ぶ。最良の長期パートナー——方向感と忍耐の両方を持つ。',
+        strengths:['長期主義の視点','安定したリーダーシップ','体系的な実行','持続可能な影響力'],
+        shadows:['過激な革新の窓を逃しがち','評判を守りすぎる','破壊者への忍耐不足','意思決定が遅れがち'],
+        careers:['CEO','部門長','ベテラン教育者','戦略コンサルタント','ファンドマネージャー'],
+        growth:'一度、自分が破壊されることを許してみよう。安定は強みであり壁でもある。「領航者」を脱ぎ、もっと過激で若い誰かに従ってみる——新しい航路が見える。' },
+      RDB: { name:'起爆者', tagline:'データで革命に火をつける。<br>最も危険な者：細部を見ながらルールを破る。',
+        desc:'曖昧なビジョンに満足せず、既存の枠で精進することにも甘んじない。あなたが望むのは、本物のデータで本物の変革を駆動すること——だから協働は難しく、欠かせない。論拠は反駁できない、事実に立つから。',
+        strengths:['証拠で権威を撃ち抜く','高強度の実証精神','物語を見抜く力','具体的な改革を駆動'],
+        shadows:['攻撃的に見えがち','感情と関係を軽視','「私が正しく、あなたが間違い」に陥る','信頼の残高を使い切る'],
+        careers:['調査ジャーナリスト','データサイエンティスト','監査人','改革派弁護士','プロダクトリサーチャー'],
+        growth:'優しい革命を学ぼう。事実は武器だが、人は事実で説得されるのではない、理解された後に事実を受け入れる。先に繋がりを築いてからデータを見せる——影響は倍になる。' },
+      RDS: { name:'匠人', tagline:'細部を極め、世界に分け与える。<br>完璧は責任であり、執着ではない。',
+        desc:'発信で充電し、精密な細部で世界を認識し、深耕の中に居場所を見つける。最も声が大きい人ではないが、あなたの作るものは十年記憶される。匠の精神の現代の化身——デジタル時代に過小評価される存在。',
+        strengths:['極致の出力品質','信頼できる約束','持続する基準を築く','深いプロ意識'],
+        shadows:['ペースが遅すぎる場合がある','粗さに耐えられない','イテレーションの価値を軽視','完璧主義による自己消耗'],
+        careers:['シニアエンジニア','料理長','建築家','医師','教師'],
+        growth:'「十分」の芸術を学ぼう。完璧は状態であり、固定点ではない。80 点の版を世界に出すことを許そう——想像の完璧より、本物のフィードバックが価値を持つ。' },
+      APB: { name:'潜流者', tagline:'静かに覆し、密かに革命する。<br>変化はあなたが去った後に気づかれる。',
+        desc:'スポットライトは要らない。沈黙の中で全体を理解し、深い思索の後に変化を起こし、新しい探索へと姿を消す。影響は存在感より長く続く——人々は変化を覚え、誰がもたらしたかは忘れる。',
+        strengths:['深い洞察','表象に惑わされない','静かな破壊力','長距離の戦略思考'],
+        shadows:['理解されにくい','周縁化されやすい','「現れる」力を過小評価','孤独に陥る'],
+        careers:['思想家','脚本家','戦略リサーチャー','ハッカー','哲学者'],
+        growth:'時にはスポットライトに立とう。演者になる必要はないが、あなたが影響を与えた人々には、あなたの存在を知る権利がある。沈黙の覆しは、名付けられて初めて続く。' },
+      APS: { name:'織網者', tagline:'沈黙の中で全システムを理解する。<br>各ノードがどう影響しあうかを知る。',
+        desc:'あなたは見えないインフラ。吸収で充電し、パターン思考で世界を理解し、安定した構造の中で深い影響を及ぼす。急がない、システムの法則を知っているから。すべてが心の中に地図を持つ。',
+        strengths:['システム級の洞察','長期の安定出力','並外れた忍耐','混沌を秩序に整える'],
+        shadows:['受け身すぎる場合がある','自己表現の窓を逃す','他者と過度に同一化','能動的な衝突を避ける'],
+        careers:['アーキテクト','組織コンサルタント','運営ディレクター','社会学者','心理セラピスト'],
+        growth:'能動的に動くことを学ぼう。あなたが見るシステムは多くの人より明晰だ——だがシステムは自ら変わらない、あなたが立ち上がり、少なくとも一度、それのために語る必要がある。' },
+      ADB: { name:'解構者', tagline:'すべてを分解し、新しい方法で再構築する。<br>再理解できないものは何もない。',
+        desc:'精密な分析で既存の前提を打ち破り、独居の中でエネルギーを蓄え、予想外の方法で現実を再構築する。最も強力な批判的思考者の一人——あなたの存在は凡庸を不安にさせる。',
+        strengths:['鋭い批判的思考','前提を見抜く力','独立した判断力','原創的な再構築'],
+        shadows:['人を刺すことがある','過度な懐疑','信頼を築きにくい','永遠の解構に陥る'],
+        careers:['研究者','哲学者','リバースエンジニア','アーティスト','調査員'],
+        growth:'「構築する」勇気を学ぼう。解構はあなたの才能だが、世界はその次を必要としている——破片を新しいものに組み直すこと。挑戦しよう：解構するたびに、一つ建造する。' },
+      ADS: { name:'深淵者', tagline:'静かに、誰よりも深く。<br>世界の表面ではあなたには足りない。',
+        desc:'吸収で充電し、細部で世界を認知し、深く安定した集中の中で価値を生む。あなたの分野で、ある事を最もよく知る人かもしれない——だが全員に知られる必要はない。深さそれ自体が報酬だ。',
+        strengths:['極致の集中力','希少な深さ','細部の完璧な感知','外部承認に依存しない'],
+        shadows:['世界と乖離しがち','価値を伝えにくい','過度な内化','協働の機会を逃す'],
+        careers:['学者','アーキビスト','詩人','時計職人','専門医'],
+        growth:'浮上することを学ぼう。深さはあなたの家だが、浅瀬への訪問が深さに意味を与える。あなたを聞き取れる一人を見つけ、見たものを語ろう——深さが贈り物になる瞬間だ。' }
+    },
+    questions: [
+      { axis:'SPARKQ', text:'丸一日の社交活動の後、あなたが最もしたいことは……',
+        options:[
+          { text:'もっと人を誘って続ける——むしろ興奮する', score:{R:2} },
+          { text:'一時間ほど一人で充電——でも今日の記憶は前向き', score:{R:1,A:1} },
+          { text:'静かな独居が必要、回復してから再び発信できる', score:{A:2} },
+          { text:'完全に消耗、丸一日休まないと戻れない', score:{A:2} } ]},
+      { axis:'SPARKQ', text:'誰かの問題解決を手伝うとき、最も真実な感覚は……',
+        options:[
+          { text:'情熱に満ち、話すほど輝く感じがする', score:{R:2} },
+          { text:'満足感は強いが、後で静かに消化する時間が必要', score:{A:2} },
+          { text:'相手次第——共鳴があれば興奮、なければ疲れる', score:{R:1,A:1} },
+          { text:'対面の即興より、文章での助けが好き', score:{A:2} } ]},
+      { axis:'SPARKQ', text:'理想の週末は……',
+        options:[
+          { text:'活動・集まり・新しい体験で埋まっている', score:{R:2} },
+          { text:'深い対話一・二件、残りは一人で好きなことを', score:{A:2} },
+          { text:'計画はあるが余白あり、人を入れることも抜くことも自由', score:{R:1} },
+          { text:'完全に自分のペース、邪魔されない創作時間', score:{A:2} } ]},
+      { axis:'FRAMEQ', text:'新しいプロジェクトを受けたとき、最初の一歩は……',
+        options:[
+          { text:'まず枠組みを描き、全体の論理と構造を把握', score:{P:2} },
+          { text:'まず細部のデータと具体要件を見る、実物から始める', score:{D:2} },
+          { text:'両方だが、全体感→深掘りの順を好む', score:{P:1} },
+          { text:'まず実行、やりながら理解を形成', score:{D:1} } ]},
+      { axis:'FRAMEQ', text:'人が複雑な事を語るとき、最初に気づくのは……',
+        options:[
+          { text:'その背後の法則とより大きな意味', score:{P:2} },
+          { text:'一致しない細部や数字、深掘りしたくなる', score:{D:2} },
+          { text:'語り手の感情と意図', score:{P:1} },
+          { text:'情報が完全で正確かどうか', score:{D:2} } ]},
+      { axis:'FRAMEQ', text:'新しい技能を学ぶとき、最も自然なやり方は……',
+        options:[
+          { text:'まず核心原理を理解、次に具体応用を導出', score:{P:2} },
+          { text:'事例と練習から始め、操作の中で法則を帰納', score:{D:2} },
+          { text:'他人の動きを見て、模倣して修正', score:{D:1} },
+          { text:'この技能と既知知識との接点を探す', score:{P:2} } ]},
+      { axis:'MOVEQ', text:'大きな機会だが高リスク、あなたの傾向は……',
+        options:[
+          { text:'まず動く、進行中で問題解決——機会は待たない', score:{B:2} },
+          { text:'慎重に評価、しかし価値ある機会には賭ける', score:{B:1,S:1} },
+          { text:'十分な保証が見えるまで動かない、不確実性は不安', score:{S:2} },
+          { text:'機会自体を改造し、リスクを下げてから入る', score:{S:2} } ]},
+      { axis:'MOVEQ', text:'「現状を変える」ことへの態度は……',
+        options:[
+          { text:'変化はワクワクする、大きいほど面白い', score:{B:2} },
+          { text:'変化を起こすが明確な目的のため、変化のための変化はしない', score:{B:1} },
+          { text:'安定の中の精進で十分、覆す必要はない', score:{S:2} },
+          { text:'変化は段階的に、突然の変化は不安にさせる', score:{S:2} } ]},
+      { axis:'MOVEQ', text:'最も達成感を覚える瞬間は……',
+        options:[
+          { text:'誰も触らなかった慣例を破り、新しい道を開いた', score:{B:2} },
+          { text:'一つのことを極致まで磨き、その分野の標準になった', score:{S:2} },
+          { text:'未知の領域へ人々を説得して連れて行った', score:{B:2} },
+          { text:'混沌から秩序を作り、皆が頼れるようにした', score:{S:2} } ]}
+    ]
+  }
+};
+
+/* ==========================================================
+   状態
+   ========================================================== */
+let currentLang = 'zh-CN';
+let current = 0;
+let scores = {R:0,A:0,P:0,D:0,B:0,S:0};
+let answers = [];
+
+/* ==========================================================
+   翻译辅助 (i18n helpers)
+   ========================================================== */
+function t(path) {
+  const parts = path.split('.');
+  let v = I18N[currentLang];
+  for (const p of parts) { v = v && v[p]; }
+  if (v == null) {
+    let fb = I18N['zh-CN'];
+    for (const p of parts) { fb = fb && fb[p]; }
+    return fb != null ? fb : path;
+  }
+  return v;
+}
+
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    el.innerHTML = t(el.dataset.i18nHtml);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.dataset.i18nPlaceholder);
+  });
+  document.documentElement.lang = I18N[currentLang].htmlLang;
+  document.title = I18N[currentLang].meta.title;
+  const md = document.getElementById('metaDesc');
+  if (md) md.setAttribute('content', I18N[currentLang].meta.description);
+  const og = document.getElementById('ogTitle');
+  if (og) og.setAttribute('content', I18N[currentLang].meta.ogTitle);
+  const ogd = document.getElementById('ogDesc');
+  if (ogd) ogd.setAttribute('content', I18N[currentLang].meta.ogDesc);
+  const tw = document.getElementById('twTitle');
+  if (tw) tw.setAttribute('content', I18N[currentLang].meta.ogTitle);
+  const twd = document.getElementById('twDesc');
+  if (twd) twd.setAttribute('content', I18N[currentLang].meta.twDesc);
+}
+
+function setLanguage(lang) {
+  if (!I18N[lang]) return;
+  currentLang = lang;
+  try { localStorage.setItem('flux-lang', lang); } catch(e) {}
+  const url = new URL(location.href);
+  url.searchParams.set('lang', lang);
+  history.replaceState(null, '', url.toString());
+
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+
+  applyTranslations();
+  renderAxes();
+  renderTypesGrid();
+  if (document.getElementById('resultBox').classList.contains('show')) {
+    const hash = location.hash;
+    if (hash.startsWith('#result=')) showResultByCode(hash.slice(8).toUpperCase());
+  } else {
+    showQuestion();
+  }
+}
+
+function detectLanguage() {
+  try {
+    const url = new URL(location.href);
+    const q = url.searchParams.get('lang');
+    if (q && I18N[q]) return q;
+  } catch(e) {}
+  try {
+    const saved = localStorage.getItem('flux-lang');
+    if (saved && I18N[saved]) return saved;
+  } catch(e) {}
+  const nav = (navigator.language || 'zh-CN').toLowerCase();
+  if (nav.startsWith('ja')) return 'ja';
+  if (nav.startsWith('zh')) return 'zh-CN';
+  if (nav.startsWith('en')) return 'en';
+  return 'zh-CN';
+}
+
+/* ==========================================================
+   渲染：轴线卡片
+   ========================================================== */
+function renderAxes() {
+  const grid = document.getElementById('axesGrid');
+  const cards = I18N[currentLang].axes.cards;
+  grid.innerHTML = cards.map(c => `
+    <div class="axis-card">
+      <div class="axis-num">${c.num}</div>
+      <div class="axis-name">${c.name}</div>
+      <div class="axis-poles">
+        <span class="pole">${c.poleL}</span>
+        <span class="pole-divider">←→</span>
+        <span class="pole">${c.poleR}</span>
+      </div>
+      <div class="axis-desc">${c.desc}</div>
+    </div>
+  `).join('');
+}
+
+/* ==========================================================
+   渲染：类型卡片
+   ========================================================== */
+const TYPE_COLORS = {
+  RPB:'#c1440e', RPS:'#c9a84c', RDB:'#c1440e', RDS:'#c9a84c',
+  APB:'#4fc3f7', APS:'#4fc3f7', ADB:'#8a9ba8', ADS:'#8a9ba8'
+};
+
+function miniGlyph(code, color) {
+  const map = {
+    RPB: `<svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" stroke="${color}" stroke-width="1.5" fill="none"/><path d="M22 8 L28 20 L22 36 L16 20 Z" fill="${color}" opacity="0.6"/><circle cx="22" cy="22" r="4" fill="${color}"/></svg>`,
+    RPS: `<svg width="44" height="44" viewBox="0 0 44 44"><path d="M8 34 L22 6 L36 34 Z" stroke="${color}" stroke-width="1.5" fill="none"/><path d="M14 28 L22 14 L30 28" stroke="${color}" stroke-width="1.2" fill="none" opacity="0.6"/><circle cx="22" cy="24" r="3" fill="${color}"/></svg>`,
+    RDB: `<svg width="44" height="44" viewBox="0 0 44 44"><path d="M10 34 Q22 8 34 34" stroke="${color}" stroke-width="1.5" fill="none"/><path d="M14 28 Q22 14 30 28" stroke="${color}" stroke-width="1.5" fill="none" opacity="0.5"/><circle cx="22" cy="22" r="3" fill="${color}"/></svg>`,
+    RDS: `<svg width="44" height="44" viewBox="0 0 44 44"><rect x="10" y="14" width="24" height="16" stroke="${color}" stroke-width="1.5" rx="1" fill="none"/><line x1="16" y1="22" x2="28" y2="22" stroke="${color}" stroke-width="1"/><line x1="22" y1="14" x2="22" y2="30" stroke="${color}" stroke-width="1"/><path d="M10 10 L22 6 L34 10" stroke="${color}" stroke-width="1" fill="none"/></svg>`,
+    APB: `<svg width="44" height="44" viewBox="0 0 44 44"><path d="M22 6 L38 14 L38 30 L22 38 L6 30 L6 14 Z" stroke="${color}" stroke-width="1.5" fill="none"/><path d="M22 14 L30 18 L30 26 L22 30 L14 26 L14 18 Z" fill="${color}" opacity="0.25"/></svg>`,
+    APS: `<svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="16" stroke="${color}" stroke-width="1.5" stroke-dasharray="4 2" fill="none"/><circle cx="22" cy="22" r="8" stroke="${color}" stroke-width="1.5" fill="none"/><circle cx="22" cy="22" r="2" fill="${color}"/></svg>`,
+    ADB: `<svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="14" stroke="${color}" stroke-width="1.5" fill="none"/><path d="M14 22 Q18 16 22 22 Q26 28 30 22" stroke="${color}" stroke-width="1.5" fill="none"/><circle cx="14" cy="22" r="2" fill="${color}"/><circle cx="30" cy="22" r="2" fill="${color}"/></svg>`,
+    ADS: `<svg width="44" height="44" viewBox="0 0 44 44"><rect x="8" y="8" width="28" height="28" stroke="${color}" stroke-width="1.5" rx="2" fill="none"/><line x1="8" y1="22" x2="36" y2="22" stroke="${color}" stroke-width="1"/><line x1="22" y1="8" x2="22" y2="36" stroke="${color}" stroke-width="1"/><rect x="17" y="17" width="10" height="10" fill="${color}" opacity="0.4"/></svg>`
+  };
+  return map[code] || '';
+}
+
+function bigGlyph(code, color) {
+  return miniGlyph(code, color).replace(/width="44" height="44"/, 'width="80" height="80"');
+}
+
+function traitTagsForCode(code) {
+  const poles = I18N[currentLang].poles;
+  return [code[0], code[1], code[2]].map(c =>
+    `<span class="trait-tag">${poles[c].trait}</span>`
+  ).join('');
+}
+
+function renderTypesGrid() {
+  const grid = document.getElementById('typesGrid');
+  const order = ['RPB','RPS','RDB','RDS','APB','APS','ADB','ADS'];
+  const types = I18N[currentLang].types;
+  grid.innerHTML = order.map(code => {
+    const t = types[code];
+    const color = TYPE_COLORS[code];
+    return `
+      <div class="type-card" onclick="location.hash='#result=${code}'">
+        <div class="type-glyph" style="display:flex;align-items:center;justify-content:center;">
+          ${miniGlyph(code, color)}
+        </div>
+        <div class="type-code">${code}</div>
+        <div class="type-name">${t.name}</div>
+        <div class="type-tagline">${t.tagline}</div>
+        <div class="type-traits">${traitTagsForCode(code)}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ==========================================================
+   测试逻辑
+   ========================================================== */
+function showQuestion() {
+  const q = I18N[currentLang].questions[current];
+  if (!q) return;
+  document.getElementById('qAxis').textContent = I18N[currentLang].axisFull[q.axis];
+  document.getElementById('qText').textContent = q.text;
+  const grid = document.getElementById('optionsGrid');
+  const letters = ['A','B','C','D'];
+  grid.innerHTML = q.options.map((o, i) => `
+    <button class="option-btn ${answers[current] === i ? 'selected' : ''}" onclick="selectOption(${i})">
+      <span class="option-letter">${letters[i]}</span>
+      ${o.text}
+    </button>
+  `).join('');
+  const nextBtn = document.getElementById('nextBtn');
+  if (answers[current] !== undefined) nextBtn.classList.add('visible');
+  else nextBtn.classList.remove('visible');
+  nextBtn.textContent = current === I18N[currentLang].questions.length - 1
+    ? I18N[currentLang].quiz.last : I18N[currentLang].quiz.next;
+  document.getElementById('backBtn').textContent = I18N[currentLang].quiz.prev;
+  document.getElementById('backBtn').disabled = current === 0;
+  updateProgress();
+}
+
+function selectOption(i) {
+  document.querySelectorAll('.option-btn').forEach((b,j) => {
+    b.classList.toggle('selected', j === i);
+  });
+  answers[current] = i;
+  document.getElementById('nextBtn').classList.add('visible');
+}
+
+function nextQuestion() {
+  if (answers[current] === undefined) return;
+  current++;
+  if (current >= I18N[currentLang].questions.length) {
+    computeAndShow();
+  } else {
+    showQuestion();
+  }
+}
+
+function prevQuestion() {
+  if (current === 0) return;
+  current--;
+  showQuestion();
+}
+
+function updateProgress() {
+  const qs = I18N[currentLang].questions;
+  qs.forEach((_, i) => {
+    const d = document.getElementById(`dot${i}`);
+    if (!d) return;
+    if (i < current) d.className = 'progress-dot done';
+    else if (i === current) d.className = 'progress-dot active';
+    else d.className = 'progress-dot';
+  });
+}
+
+function computeAndShow() {
+  scores = {R:0,A:0,P:0,D:0,B:0,S:0};
+  const qs = I18N[currentLang].questions;
+  answers.forEach((idx, qi) => {
+    const s = qs[qi].options[idx].score;
+    for (const [k, v] of Object.entries(s)) scores[k] += v;
+  });
+  const spark = scores.R >= scores.A ? 'R' : 'A';
+  const frame = scores.P >= scores.D ? 'P' : 'D';
+  const move  = scores.B >= scores.S ? 'B' : 'S';
+  showResultByCode(spark + frame + move);
+}
+
+/* ==========================================================
+   结果渲染
+   ========================================================== */
+function showResultByCode(code) {
+  const types = I18N[currentLang].types;
+  const t = types[code] || types.RPB;
+  const r = I18N[currentLang].result;
+  const poles = I18N[currentLang].poles;
+
+  document.getElementById('quizContainer').style.display = 'none';
+  const rb = document.getElementById('resultBox');
+  rb.classList.add('show');
+
+  document.getElementById('resultCode').textContent = code + r.codeSuffix;
+  document.getElementById('resultGlyph').innerHTML = bigGlyph(code, TYPE_COLORS[code]);
+  document.getElementById('resultName').textContent = t.name;
+  document.getElementById('resultTagline').innerHTML = t.tagline;
+  document.getElementById('resultDesc').textContent = t.desc;
+
+  document.getElementById('resultAxes').innerHTML = [
+    poles[code[0]].full, poles[code[1]].full, poles[code[2]].full
+  ].map(l => `<span class="result-axis-tag">${l}</span>`).join('');
+
+  renderScoreBars(code);
+
+  document.getElementById('resultStrengths').innerHTML = t.strengths.map(s =>
+    `<div class="trait-item">${s}</div>`).join('');
+  document.getElementById('resultShadows').innerHTML = t.shadows.map(s =>
+    `<div class="trait-item shadow">${s}</div>`).join('');
+  document.getElementById('resultCareers').innerHTML = t.careers.map(c =>
+    `<span class="career-tag">${c}</span>`).join('');
+  document.getElementById('resultGrowth').textContent = t.growth;
+
+  const shadowCode = invertCode(code);
+  const shadow = types[shadowCode];
+  document.getElementById('shadowCard').innerHTML = `
+    <div class="shadow-code">${shadowCode} · ${shadow.name}</div>
+    <div class="shadow-name">${shadow.name}</div>
+    <div class="shadow-desc">${r.shadowDesc.replace('{name}', shadow.name)}</div>
+  `;
+
+  const newHash = `#result=${code}`;
+  if (location.hash !== newHash) {
+    history.replaceState(null, '', location.pathname + location.search + newHash);
+  }
+
+  rb.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderScoreBars(code) {
+  const hasScores = Object.values(scores).some(v => v > 0);
+  const af = I18N[currentLang].axisFull;
+  const poles = I18N[currentLang].poles;
+  const dom = I18N[currentLang].result.dominantSuffix;
+
+  const axes = [
+    { name: af.SPARK, leftK:'R', rightK:'A',
+      lScore: hasScores ? scores.R : (code[0]==='R'?5:1),
+      rScore: hasScores ? scores.A : (code[0]==='A'?5:1) },
+    { name: af.FRAME, leftK:'P', rightK:'D',
+      lScore: hasScores ? scores.P : (code[1]==='P'?5:1),
+      rScore: hasScores ? scores.D : (code[1]==='D'?5:1) },
+    { name: af.MOVE, leftK:'B', rightK:'S',
+      lScore: hasScores ? scores.B : (code[2]==='B'?5:1),
+      rScore: hasScores ? scores.S : (code[2]==='S'?5:1) }
+  ];
+
+  document.getElementById('scoreBars').innerHTML = axes.map(a => {
+    const total = a.lScore + a.rScore || 1;
+    const lPct = (a.lScore / total) * 100;
+    const rPct = (a.rScore / total) * 100;
+    const dominant = a.lScore >= a.rScore ? 'left' : 'right';
+    const domLabel = dominant === 'left' ? poles[a.leftK].abbr : poles[a.rightK].abbr;
+    return `
+      <div class="score-bar-row">
+        <div class="score-bar-labels">
+          <span class="axis-name-mini">${a.name}</span>
+          <span>${domLabel} ${dom}</span>
+        </div>
+        <div class="score-bar-track">
+          <div class="score-bar-center"></div>
+          <div class="score-bar-fill left" style="width:${dominant==='left'?lPct/2:0}%"></div>
+          <div class="score-bar-fill right" style="width:${dominant==='right'?rPct/2:0}%"></div>
+        </div>
+        <div class="score-bar-poles">
+          <span>${poles[a.leftK].abbr}</span>
+          <span>${poles[a.rightK].abbr}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function invertCode(code) {
+  const map = { R:'A', A:'R', P:'D', D:'P', B:'S', S:'B' };
+  return code.split('').map(c => map[c]).join('');
+}
+
+/* ==========================================================
+   分享
+   ========================================================== */
+function shareResult() {
+  const url = location.href;
+  navigator.clipboard.writeText(url).then(() => showToast(I18N[currentLang].toasts.linkCopied));
+}
+
+function copyResultText() {
+  const code = (location.hash.slice(8) || 'RPB').toUpperCase();
+  const t = I18N[currentLang].types[code];
+  if (!t) return;
+  const tpl = I18N[currentLang].result.shareText;
+  const text = tpl
+    .replace('{name}', t.name)
+    .replace('{code}', code)
+    .replace('{tagline}', t.tagline.replace(/<br>/g, ' '))
+    .replace('{desc}', t.desc)
+    .replace('{url}', location.origin + location.pathname);
+  navigator.clipboard.writeText(text).then(() => showToast(I18N[currentLang].toasts.textCopied));
+}
+
+function resetQuiz() {
+  scores = {R:0,A:0,P:0,D:0,B:0,S:0};
+  current = 0;
+  answers = [];
+  document.getElementById('resultBox').classList.remove('show');
+  document.getElementById('quizContainer').style.display = 'block';
+  history.replaceState(null, '', location.pathname + location.search);
+  showQuestion();
+  document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+}
+
+function showToast(msg) {
+  const tEl = document.getElementById('toast');
+  tEl.textContent = msg;
+  tEl.classList.add('show');
+  setTimeout(() => tEl.classList.remove('show'), 2200);
+}
+
+/* ==========================================================
+   反馈 Feedback
+   ========================================================== */
+const FEEDBACK_EMAIL = 'happy_games@vip.qq.com';
+
+function openFeedback() {
+  document.getElementById('feedbackModal').classList.add('show');
+  setTimeout(() => document.getElementById('feedbackText').focus(), 80);
+}
+
+function closeFeedback() {
+  document.getElementById('feedbackModal').classList.remove('show');
+}
+
+function sendFeedback() {
+  const fb = I18N[currentLang].feedback;
+  const ta = document.getElementById('feedbackText');
+  const text = ta.value.trim();
+  if (!text) { showToast(fb.empty); ta.focus(); return; }
+
+  const m = location.hash.match(/result=([A-Z]+)/i);
+  const code = m ? m[1].toUpperCase() : '';
+  const types = I18N[currentLang].types;
+  const typeInfo = code && types[code]
+    ? `${code} · ${types[code].name}`
+    : '(not taken)';
+
+  const meta =
+    `\n\n---\nLanguage: ${currentLang}` +
+    `\nURL: ${location.href}` +
+    `\nType: ${typeInfo}` +
+    `\nUser Agent: ${navigator.userAgent}` +
+    `\nViewport: ${window.innerWidth}x${window.innerHeight}` +
+    `\nTimestamp: ${new Date().toISOString()}`;
+
+  const summary = text.split('\n')[0].slice(0, 50) || 'feedback';
+  const subject = encodeURIComponent(`${fb.subject} ${summary}`);
+  const body = encodeURIComponent(text + meta);
+  const mailto = `mailto:${FEEDBACK_EMAIL}?subject=${subject}&body=${body}`;
+
+  window.location.href = mailto;
+  setTimeout(() => {
+    closeFeedback();
+    showToast(I18N[currentLang].toasts.feedbackOpened);
+    ta.value = '';
+  }, 400);
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeFeedback();
+});
+
+document.getElementById('feedbackModal').addEventListener('click', (e) => {
+  if (e.target.id === 'feedbackModal') closeFeedback();
+});
+
+/* ==========================================================
+   粒子 / 导航 / Reveal
+   ========================================================== */
+function spawnParticles() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (12 + Math.random() * 18) + 's';
+    p.style.animationDelay = Math.random() * 20 + 's';
+    p.style.opacity = 0.3 + Math.random() * 0.5;
+    container.appendChild(p);
+  }
+}
+
+function setupNav() {
+  const nav = document.getElementById('nav');
+  const update = () => {
+    const lightZones = document.querySelectorAll('.intro, .types-section');
+    let inLight = false;
+    lightZones.forEach(z => {
+      const r = z.getBoundingClientRect();
+      if (r.top < 60 && r.bottom > 60) inLight = true;
+    });
+    nav.classList.toggle('light', inLight);
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('revealed'); });
+}, { threshold: 0.12 });
+
+/* ==========================================================
+   初始化
+   ========================================================== */
+function init() {
+  currentLang = detectLanguage();
+
+  const prog = document.getElementById('quizProgress');
+  prog.innerHTML = I18N[currentLang].questions.map((_, i) =>
+    `<div class="progress-dot" id="dot${i}"></div>`).join('');
+
+  applyTranslations();
+  renderAxes();
+  renderTypesGrid();
+  showQuestion();
+
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === currentLang);
+  });
+
+  spawnParticles();
+  setupNav();
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }, 0);
+
+  const hash = location.hash;
+  if (hash.startsWith('#result=')) {
+    const code = hash.slice(8).toUpperCase();
+    if (I18N[currentLang].types[code]) {
+      setTimeout(() => showResultByCode(code), 80);
+    }
+  }
+}
+
+init();
+</script>
+</body>
+</html>
