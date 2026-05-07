@@ -1531,9 +1531,10 @@
     <div class="modal-title" data-i18n="feedback.title">反馈 Bug 或建议</div>
     <div class="modal-includes" data-i18n="feedback.includes">提交时会附带语言、URL、人格类型与浏览器信息，便于复现问题。</div>
     <textarea class="modal-textarea" id="feedbackText" data-i18n-placeholder="feedback.placeholder" placeholder="请详细描述..."></textarea>
+    <input type="text" id="feedbackHoney" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;">
     <div class="modal-actions">
       <button class="modal-btn" onclick="closeFeedback()" data-i18n="feedback.cancel">取消</button>
-      <button class="modal-btn primary" onclick="sendFeedback()" data-i18n="feedback.send">通过邮件发送 →</button>
+      <button class="modal-btn primary" onclick="sendFeedback()" data-i18n="feedback.send">直接发送 →</button>
     </div>
   </div>
 </div>
@@ -1613,13 +1614,13 @@ const I18N = {
       SPARK: 'SPARK · 能量来源', FRAME: 'FRAME · 认知处理', MOVE: 'MOVE · 行动倾向',
       SPARKQ: 'SPARK 轴 · 能量来源', FRAMEQ: 'FRAME 轴 · 认知处理', MOVEQ: 'MOVE 轴 · 行动倾向'
     },
-    toasts: { linkCopied: '链接已复制 · 快去分享吧', textCopied: '结果文字已复制', feedbackOpened: '已打开邮件客户端，发送即可', imageSaved: '海报已生成 · 已保存到下载文件夹', imageError: '海报生成失败 · 请重试' },
+    toasts: { linkCopied: '链接已复制 · 快去分享吧', textCopied: '结果文字已复制', feedbackOpened: '已打开邮件客户端，发送即可', feedbackSending: '发送中…', feedbackSent: '反馈已收到，谢谢！', feedbackFailed: '发送失败 · 已为你打开邮件客户端', imageSaved: '海报已生成 · 已保存到下载文件夹', imageError: '海报生成失败 · 请重试' },
     feedback: {
       fabLabel: '反馈',
       title: '反馈 Bug 或建议',
-      includes: '提交时会附带：当前语言、页面 URL、人格类型（如有）、浏览器信息——便于作者复现问题。仅通过你的邮件客户端发送，FLUX 不会保存任何数据。',
+      includes: '提交时会附带：当前语言、页面 URL、人格类型（如有）、浏览器信息——便于作者复现问题。直接通过网页提交，作者会在邮箱中收到。',
       placeholder: '请详细描述遇到的问题或想法……（也欢迎建议新功能）',
-      send: '通过邮件发送 →',
+      send: '直接发送 →',
       cancel: '取消',
       empty: '请先填写反馈内容',
       subject: '[FLUX 反馈]'
@@ -1807,13 +1808,13 @@ const I18N = {
       SPARK: 'SPARK · Energy Source', FRAME: 'FRAME · Cognition', MOVE: 'MOVE · Action',
       SPARKQ: 'SPARK · Energy Source', FRAMEQ: 'FRAME · Cognition', MOVEQ: 'MOVE · Action'
     },
-    toasts: { linkCopied: 'Link copied · Share away', textCopied: 'Result text copied', feedbackOpened: 'Email client opened — just hit Send', imageSaved: 'Poster generated · Saved to your downloads', imageError: 'Failed to generate poster · Please retry' },
+    toasts: { linkCopied: 'Link copied · Share away', textCopied: 'Result text copied', feedbackOpened: 'Email client opened — just hit Send', feedbackSending: 'Sending…', feedbackSent: 'Thanks — your feedback was received!', feedbackFailed: 'Send failed · Email client opened as fallback', imageSaved: 'Poster generated · Saved to your downloads', imageError: 'Failed to generate poster · Please retry' },
     feedback: {
       fabLabel: 'Feedback',
       title: 'Report a Bug or Suggestion',
-      includes: 'On submit, this includes: current language, page URL, personality type (if taken), browser info — to help the author reproduce. Sent through your own email client; FLUX stores no data.',
+      includes: 'On submit, this includes: current language, page URL, personality type (if taken), browser info — to help the author reproduce. Submitted directly from this page; the author receives it by email.',
       placeholder: 'Please describe the issue or idea in detail... (feature suggestions are welcome too)',
-      send: 'Send via Email →',
+      send: 'Send →',
       cancel: 'Cancel',
       empty: 'Please fill in feedback content first',
       subject: '[FLUX Feedback]'
@@ -2001,13 +2002,13 @@ const I18N = {
       SPARK: 'SPARK · エネルギー源', FRAME: 'FRAME · 認知処理', MOVE: 'MOVE · 行動傾向',
       SPARKQ: 'SPARK 軸 · エネルギー源', FRAMEQ: 'FRAME 軸 · 認知処理', MOVEQ: 'MOVE 軸 · 行動傾向'
     },
-    toasts: { linkCopied: 'リンクをコピーしました', textCopied: '結果をコピーしました', feedbackOpened: 'メールクライアントを開きました — 送信ボタンを押してください', imageSaved: 'ポスターを生成しました · ダウンロードに保存', imageError: 'ポスター生成に失敗しました · 再試行してください' },
+    toasts: { linkCopied: 'リンクをコピーしました', textCopied: '結果をコピーしました', feedbackOpened: 'メールクライアントを開きました — 送信ボタンを押してください', feedbackSending: '送信中…', feedbackSent: 'フィードバックを受け取りました。ありがとう！', feedbackFailed: '送信に失敗 · メールクライアントを代替として開きました', imageSaved: 'ポスターを生成しました · ダウンロードに保存', imageError: 'ポスター生成に失敗しました · 再試行してください' },
     feedback: {
       fabLabel: 'フィードバック',
       title: 'バグ報告または提案',
-      includes: '送信時に同梱：現在の言語、ページ URL、人格タイプ（診断済みの場合）、ブラウザ情報——再現確認のため。お使いのメールクライアントから送信され、FLUX はデータを保存しません。',
+      includes: '送信時に同梱：現在の言語、ページ URL、人格タイプ（診断済みの場合）、ブラウザ情報——再現確認のため。このページから直接送信され、作成者がメールで受け取ります。',
       placeholder: '問題や提案を詳しくお書きください……（新機能の提案も歓迎します）',
-      send: 'メールで送る →',
+      send: '送信 →',
       cancel: 'キャンセル',
       empty: 'フィードバック内容を入力してください',
       subject: '[FLUX フィードバック]'
@@ -3026,8 +3027,13 @@ function showToast(msg) {
 
 /* ==========================================================
    反馈 Feedback
+   - Primary: POST to Web3Forms (https://web3forms.com)
+   - Fallback: open user's mail client via mailto:
+   - Access key is public-safe (only delivers to author's preset email)
    ========================================================== */
 const FEEDBACK_EMAIL = 'happy_games@vip.qq.com';
+const FEEDBACK_ENDPOINT = 'https://api.web3forms.com/submit';
+const FEEDBACK_KEY = '63c78a15-beca-4f01-ae2d-65c8f92f247e';
 
 function openFeedback() {
   document.getElementById('feedbackModal').classList.add('show');
@@ -3038,38 +3044,94 @@ function closeFeedback() {
   document.getElementById('feedbackModal').classList.remove('show');
 }
 
-function sendFeedback() {
+function feedbackMetaBlock() {
+  const m = location.hash.match(/result=([A-Z]+)/i);
+  const code = m ? m[1].toUpperCase() : '';
+  const types = I18N[currentLang].types;
+  const typeInfo = code && types[code] ? `${code} · ${types[code].name}` : '(not taken)';
+  return {
+    code,
+    typeInfo,
+    summary: '',
+    text:
+      `Language: ${currentLang}` +
+      `\nURL: ${location.href}` +
+      `\nType: ${typeInfo}` +
+      `\nUser Agent: ${navigator.userAgent}` +
+      `\nViewport: ${window.innerWidth}x${window.innerHeight}` +
+      `\nTimestamp: ${new Date().toISOString()}`
+  };
+}
+
+function feedbackMailtoFallback(text, fb) {
+  const meta = feedbackMetaBlock();
+  const summary = text.split('\n')[0].slice(0, 50) || 'feedback';
+  const subject = encodeURIComponent(`${fb.subject} ${summary}`);
+  const body = encodeURIComponent(text + '\n\n---\n' + meta.text);
+  window.location.href = `mailto:${FEEDBACK_EMAIL}?subject=${subject}&body=${body}`;
+}
+
+async function sendFeedback() {
   const fb = I18N[currentLang].feedback;
+  const toasts = I18N[currentLang].toasts;
   const ta = document.getElementById('feedbackText');
   const text = ta.value.trim();
   if (!text) { showToast(fb.empty); ta.focus(); return; }
 
-  const m = location.hash.match(/result=([A-Z]+)/i);
-  const code = m ? m[1].toUpperCase() : '';
-  const types = I18N[currentLang].types;
-  const typeInfo = code && types[code]
-    ? `${code} · ${types[code].name}`
-    : '(not taken)';
-
-  const meta =
-    `\n\n---\nLanguage: ${currentLang}` +
-    `\nURL: ${location.href}` +
-    `\nType: ${typeInfo}` +
-    `\nUser Agent: ${navigator.userAgent}` +
-    `\nViewport: ${window.innerWidth}x${window.innerHeight}` +
-    `\nTimestamp: ${new Date().toISOString()}`;
-
-  const summary = text.split('\n')[0].slice(0, 50) || 'feedback';
-  const subject = encodeURIComponent(`${fb.subject} ${summary}`);
-  const body = encodeURIComponent(text + meta);
-  const mailto = `mailto:${FEEDBACK_EMAIL}?subject=${subject}&body=${body}`;
-
-  window.location.href = mailto;
-  setTimeout(() => {
+  const honey = document.getElementById('feedbackHoney');
+  if (honey && honey.value) {
     closeFeedback();
-    showToast(I18N[currentLang].toasts.feedbackOpened);
-    ta.value = '';
-  }, 400);
+    return;
+  }
+
+  const sendBtn = document.querySelector('#feedbackModal .modal-btn.primary');
+  const originalLabel = sendBtn ? sendBtn.textContent : '';
+  if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = toasts.feedbackSending || '…'; }
+  showToast(toasts.feedbackSending);
+
+  const meta = feedbackMetaBlock();
+  const summary = text.split('\n')[0].slice(0, 60) || 'feedback';
+
+  const payload = {
+    access_key: FEEDBACK_KEY,
+    subject: `${fb.subject} ${summary}`,
+    from_name: 'FLUX Feedback',
+    botcheck: '',
+    message: text + '\n\n---\n' + meta.text,
+    language: currentLang,
+    url: location.href,
+    personality_type: meta.typeInfo,
+    user_agent: navigator.userAgent,
+    viewport: `${window.innerWidth}x${window.innerHeight}`,
+    timestamp: new Date().toISOString()
+  };
+
+  try {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 12000);
+    const res = await fetch(FEEDBACK_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: ctrl.signal
+    });
+    clearTimeout(timer);
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data && data.success) {
+      ta.value = '';
+      closeFeedback();
+      showToast(toasts.feedbackSent);
+    } else {
+      throw new Error((data && data.message) || `HTTP ${res.status}`);
+    }
+  } catch (err) {
+    console.error('Feedback submit failed:', err);
+    showToast(toasts.feedbackFailed);
+    feedbackMailtoFallback(text, fb);
+    setTimeout(() => closeFeedback(), 600);
+  } finally {
+    if (sendBtn) { sendBtn.disabled = false; sendBtn.textContent = originalLabel; }
+  }
 }
 
 document.addEventListener('keydown', (e) => {
