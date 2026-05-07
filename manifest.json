@@ -1,0 +1,21 @@
+{
+  "name": "FLUX · Fluid Personality System",
+  "short_name": "FLUX",
+  "description": "A dynamic personality framework — three axes, eight core flow-states. By HAPPY Games.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1a2332",
+  "theme_color": "#1a2332",
+  "lang": "zh-CN",
+  "categories": ["lifestyle", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

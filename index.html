@@ -18,6 +18,8 @@
 <meta name="twitter:description" id="twDesc" content="比 MBTI 更动态的人格框架。8 种流态，9 道题，3 分钟。">
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231a2332'/%3E%3Cpath d='M8 22 Q16 6 24 22' stroke='%23c1440e' stroke-width='2' fill='none'/%3E%3Cpath d='M8 22 Q16 14 24 22' stroke='%234fc3f7' stroke-width='1.5' fill='none' opacity='0.7'/%3E%3Ccircle cx='16' cy='18' r='2' fill='%23f5f0e8'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
 
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&family=Noto+Serif+JP:wght@300;400;600&family=Space+Mono:wght@400;700&family=Raleway:wght@100;200;300;700;900&display=swap" rel="stylesheet">
 
@@ -1388,7 +1390,8 @@
         <div class="shadow-card" id="shadowCard"></div>
       </div>
       <div class="result-actions">
-        <button class="result-btn primary" id="btnShare" onclick="shareResult()" data-i18n="result.btnShare">复制分享链接</button>
+        <button class="result-btn primary" id="btnImage" onclick="saveResultPoster()" data-i18n="result.btnImage">保存为海报 ↓</button>
+        <button class="result-btn" id="btnShare" onclick="shareResult()" data-i18n="result.btnShare">复制分享链接</button>
         <button class="result-btn" id="btnCopy" onclick="copyResultText()" data-i18n="result.btnCopy">复制结果文字</button>
         <button class="result-btn" id="btnReset" onclick="resetQuiz()" data-i18n="result.btnReset">↺ 重新测试</button>
       </div>
@@ -1494,8 +1497,9 @@ const I18N = {
       sectionGrowth: '成长建议', sectionShadow: '你的镜像 · 阴影流态',
       dominantSuffix: '主导',
       shadowDesc: '这是你最不熟悉、却最值得理解的流态。在他们身上，藏着你需要补全的那一面。当你陷入困境时，问自己："如果我是 {name}，我会怎么看？"',
-      btnShare: '复制分享链接', btnCopy: '复制结果文字', btnReset: '↺ 重新测试',
-      shareText: '我在 FLUX 流态人格系统中是【{name}】({code})\n\n{tagline}\n\n{desc}\n\n— 测一测你的流态：{url}'
+      btnShare: '复制分享链接', btnCopy: '复制结果文字', btnReset: '↺ 重新测试', btnImage: '保存为海报 ↓',
+      shareText: '我在 FLUX 流态人格系统中是【{name}】({code})\n\n{tagline}\n\n{desc}\n\n— 测一测你的流态：{url}',
+      poster: { tagBadge: '次世代人格框架 · 2026', footerHint: '测出你的流态 · 上面的网址' }
     },
     poles: {
       R: { full: '辐射型能量 R', abbr: 'R 辐射', trait: '辐射能量' },
@@ -1509,7 +1513,7 @@ const I18N = {
       SPARK: 'SPARK · 能量来源', FRAME: 'FRAME · 认知处理', MOVE: 'MOVE · 行动倾向',
       SPARKQ: 'SPARK 轴 · 能量来源', FRAMEQ: 'FRAME 轴 · 认知处理', MOVEQ: 'MOVE 轴 · 行动倾向'
     },
-    toasts: { linkCopied: '链接已复制 · 快去分享吧', textCopied: '结果文字已复制', feedbackOpened: '已打开邮件客户端，发送即可' },
+    toasts: { linkCopied: '链接已复制 · 快去分享吧', textCopied: '结果文字已复制', feedbackOpened: '已打开邮件客户端，发送即可', imageSaved: '海报已生成 · 已保存到下载文件夹', imageError: '海报生成失败 · 请重试' },
     feedback: {
       fabLabel: '反馈',
       title: '反馈 Bug 或建议',
@@ -1687,8 +1691,9 @@ const I18N = {
       sectionGrowth: 'Growth Path', sectionShadow: 'Your Mirror · Shadow Flow',
       dominantSuffix: 'dominant',
       shadowDesc: 'This is the flow-state you understand the least, yet most need to understand. In them lives the side of yourself you have yet to integrate. When stuck, ask yourself: "If I were the {name}, how would I see this?"',
-      btnShare: 'Copy Share Link', btnCopy: 'Copy Result Text', btnReset: '↺ Retake',
-      shareText: 'On FLUX I am the【{name}】({code})\n\n{tagline}\n\n{desc}\n\n— Find your flow: {url}'
+      btnShare: 'Copy Share Link', btnCopy: 'Copy Result Text', btnReset: '↺ Retake', btnImage: 'Save as Poster ↓',
+      shareText: 'On FLUX I am the【{name}】({code})\n\n{tagline}\n\n{desc}\n\n— Find your flow: {url}',
+      poster: { tagBadge: 'Next-Gen Personality · 2026', footerHint: 'Find your flow · URL above' }
     },
     poles: {
       R: { full: 'Radiant Energy R', abbr: 'R Radiant', trait: 'Radiant' },
@@ -1702,7 +1707,7 @@ const I18N = {
       SPARK: 'SPARK · Energy Source', FRAME: 'FRAME · Cognition', MOVE: 'MOVE · Action',
       SPARKQ: 'SPARK · Energy Source', FRAMEQ: 'FRAME · Cognition', MOVEQ: 'MOVE · Action'
     },
-    toasts: { linkCopied: 'Link copied · Share away', textCopied: 'Result text copied', feedbackOpened: 'Email client opened — just hit Send' },
+    toasts: { linkCopied: 'Link copied · Share away', textCopied: 'Result text copied', feedbackOpened: 'Email client opened — just hit Send', imageSaved: 'Poster generated · Saved to your downloads', imageError: 'Failed to generate poster · Please retry' },
     feedback: {
       fabLabel: 'Feedback',
       title: 'Report a Bug or Suggestion',
@@ -1880,8 +1885,9 @@ const I18N = {
       sectionGrowth: '成長への道', sectionShadow: 'あなたの鏡 · 影の流型',
       dominantSuffix: '優勢',
       shadowDesc: 'これはあなたが最も馴染みがなく、しかし最も理解する価値がある流型。彼らの中に、あなたが補うべき側面が眠っている。行き詰まったとき、自分に問いかけよう——「もし私が{name}なら、どう見るだろうか？」',
-      btnShare: 'リンクをコピー', btnCopy: '結果をコピー', btnReset: '↺ もう一度',
-      shareText: 'FLUX 流型人格システムで、私は【{name}】({code})\n\n{tagline}\n\n{desc}\n\n— あなたの流型を見つける：{url}'
+      btnShare: 'リンクをコピー', btnCopy: '結果をコピー', btnReset: '↺ もう一度', btnImage: 'ポスター保存 ↓',
+      shareText: 'FLUX 流型人格システムで、私は【{name}】({code})\n\n{tagline}\n\n{desc}\n\n— あなたの流型を見つける：{url}',
+      poster: { tagBadge: '次世代人格フレームワーク · 2026', footerHint: 'あなたの流型を見つける · 上のURL' }
     },
     poles: {
       R: { full: '放射型エネルギー R', abbr: 'R 放射', trait: '放射エネルギー' },
@@ -1895,7 +1901,7 @@ const I18N = {
       SPARK: 'SPARK · エネルギー源', FRAME: 'FRAME · 認知処理', MOVE: 'MOVE · 行動傾向',
       SPARKQ: 'SPARK 軸 · エネルギー源', FRAMEQ: 'FRAME 軸 · 認知処理', MOVEQ: 'MOVE 軸 · 行動傾向'
     },
-    toasts: { linkCopied: 'リンクをコピーしました', textCopied: '結果をコピーしました', feedbackOpened: 'メールクライアントを開きました — 送信ボタンを押してください' },
+    toasts: { linkCopied: 'リンクをコピーしました', textCopied: '結果をコピーしました', feedbackOpened: 'メールクライアントを開きました — 送信ボタンを押してください', imageSaved: 'ポスターを生成しました · ダウンロードに保存', imageError: 'ポスター生成に失敗しました · 再試行してください' },
     feedback: {
       fabLabel: 'フィードバック',
       title: 'バグ報告または提案',
@@ -2356,6 +2362,246 @@ function invertCode(code) {
 }
 
 /* ==========================================================
+   分享 · 结果海报（Canvas）
+   ========================================================== */
+function stripHtml(s) {
+  const d = document.createElement('div');
+  d.innerHTML = s || '';
+  return (d.textContent || d.innerText || '').replace(/\s+/g, ' ').trim();
+}
+
+function wrapPosterLines(ctx, text, maxW) {
+  const lines = [];
+  let line = '';
+  const t = text || '';
+  for (let i = 0; i < t.length; i++) {
+    const ch = t[i];
+    const test = line + ch;
+    if (ctx.measureText(test).width > maxW && line.length) {
+      lines.push(line);
+      line = ch === ' ' ? '' : ch;
+    } else {
+      line = test;
+    }
+  }
+  if (line) lines.push(line);
+  return lines;
+}
+
+function posterSerifStack() {
+  if (currentLang === 'ja') return '"Noto Serif JP","Noto Serif SC",serif';
+  if (currentLang === 'en') return '"Raleway","Noto Serif SC",system-ui,sans-serif';
+  return '"Noto Serif SC","Noto Serif JP",serif';
+}
+
+function drawRoundedRect(ctx, x, y, w, h, r) {
+  const rad = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + rad, y);
+  ctx.lineTo(x + w - rad, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + rad);
+  ctx.lineTo(x + w, y + h - rad);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - rad, y + h);
+  ctx.lineTo(x + rad, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - rad);
+  ctx.lineTo(x, y + rad);
+  ctx.quadraticCurveTo(x, y, x + rad, y);
+  ctx.closePath();
+}
+
+function triggerPosterDownload(blob, filename) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+async function saveResultPoster() {
+  const btn = document.getElementById('btnImage');
+  const code = (location.hash.slice(8) || 'RPB').toUpperCase();
+  const tData = I18N[currentLang].types[code];
+  if (!tData) {
+    showToast(I18N[currentLang].toasts.imageError);
+    return;
+  }
+  const accent = TYPE_COLORS[code] || '#c1440e';
+  const paper = '#f5f0e8';
+  const deep = '#1a2332';
+  const mist = '#8a9ba8';
+  const glow = '#4fc3f7';
+  const posterMeta = I18N[currentLang].result.poster || {};
+  const poles = I18N[currentLang].poles;
+
+  btn.disabled = true;
+  try {
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+
+    const W = 1200;
+    const H = 1500;
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) throw new Error('no-2d');
+
+    ctx.fillStyle = deep;
+    ctx.fillRect(0, 0, W, H);
+
+    const g = ctx.createRadialGradient(W * 0.5, H * 0.22, 40, W * 0.5, H * 0.35, 520);
+    g.addColorStop(0, hexToRgba(accent, 0.22));
+    g.addColorStop(0.45, hexToRgba(glow, 0.06));
+    g.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.strokeStyle = 'rgba(245,240,232,0.04)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < W; x += 48) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, H);
+      ctx.stroke();
+    }
+    for (let y = 0; y < H; y += 48) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(W, y);
+      ctx.stroke();
+    }
+
+    ctx.font = '300 20px "Space Mono",monospace';
+    ctx.fillStyle = glow;
+    ctx.textBaseline = 'top';
+    ctx.fillText((posterMeta.tagBadge || 'FLUX · 2026').toUpperCase(), 72, 56);
+
+    let lx = 72;
+    const logoY = 108;
+    const logoSize = 118;
+    const logoGap = 4;
+    const fluxStr = 'FLUX';
+    for (let i = 0; i < fluxStr.length; i++) {
+      const ch = fluxStr[i];
+      const isU = ch === 'U';
+      ctx.font = `${isU ? 900 : 200} ${logoSize}px Raleway,system-ui,sans-serif`;
+      ctx.fillStyle = isU ? accent : paper;
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillText(ch, lx, logoY);
+      lx += ctx.measureText(ch).width + logoGap;
+    }
+
+    ctx.textBaseline = 'top';
+    ctx.font = '700 56px "Space Mono",monospace';
+    ctx.fillStyle = accent;
+    ctx.fillText(code, 72, 248);
+
+    const svgRaw = miniGlyph(code, accent).replace(/width="44"/, 'width="200"').replace(/height="44"/, 'height="200"');
+    const svgMarkup = svgRaw.includes('xmlns') ? svgRaw : svgRaw.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+    const svgBlob = new Blob([svgMarkup], { type: 'image/svg+xml;charset=utf-8' });
+    const svgUrl = URL.createObjectURL(svgBlob);
+    const glyphImg = await new Promise((resolve, reject) => {
+      const im = new Image();
+      im.onload = () => resolve(im);
+      im.onerror = () => reject(new Error('glyph'));
+      im.src = svgUrl;
+    });
+    URL.revokeObjectURL(svgUrl);
+
+    const gw = 200;
+    const gh = 200;
+    ctx.drawImage(glyphImg, W - gw - 72, 210, gw, gh);
+
+    const serif = posterSerifStack();
+    ctx.fillStyle = paper;
+    ctx.font = `600 52px ${serif}`;
+    const name = tData.name || '';
+    ctx.fillText(name, 72, 340);
+
+    ctx.font = `400 30px ${serif}`;
+    ctx.fillStyle = mist;
+    const tagPlain = stripHtml(tData.tagline).replace(/\s+/g, ' ');
+    const tagLines = wrapPosterLines(ctx, tagPlain, W - 144);
+    let ty = 410;
+    tagLines.slice(0, 4).forEach(line => {
+      ctx.fillText(line, 72, ty);
+      ty += 42;
+    });
+
+    const tags = [code[0], code[1], code[2]].map(c => poles[c].abbr || poles[c].trait);
+    let px = 72;
+    const py = 560;
+    ctx.font = '400 22px "Space Mono",monospace';
+    tags.forEach((label, idx) => {
+      const padX = 18;
+      const tw = ctx.measureText(label).width + padX * 2;
+      const th = 44;
+      ctx.strokeStyle = idx === 0 ? accent : glow;
+      ctx.lineWidth = 1.5;
+      drawRoundedRect(ctx, px, py, tw, th, 8);
+      ctx.stroke();
+      ctx.fillStyle = paper;
+      ctx.textBaseline = 'middle';
+      ctx.fillText(label, px + padX, py + th / 2);
+      px += tw + 14;
+    });
+
+    ctx.textBaseline = 'top';
+    ctx.strokeStyle = 'rgba(245,240,232,0.12)';
+    ctx.beginPath();
+    ctx.moveTo(72, 640);
+    ctx.lineTo(W - 72, 640);
+    ctx.stroke();
+
+    const shareUrl = `${location.origin}${location.pathname}${location.search}${location.hash}`;
+    ctx.font = '400 24px "Space Mono",monospace';
+    ctx.fillStyle = paper;
+    const urlLines = wrapPosterLines(ctx, shareUrl, W - 144);
+    let uy = H - 120 - urlLines.length * 34;
+    urlLines.forEach(line => {
+      ctx.fillText(line, 72, uy);
+      uy += 34;
+    });
+
+    ctx.font = `400 22px ${serif}`;
+    ctx.fillStyle = mist;
+    ctx.fillText(posterMeta.footerHint || 'FLUX', 72, H - 56);
+
+    await new Promise((resolve, reject) => {
+      canvas.toBlob(
+        blob => {
+          if (blob) {
+            triggerPosterDownload(blob, `FLUX-${code}-poster.png`);
+            resolve();
+          } else reject(new Error('blob'));
+        },
+        'image/png',
+        0.95
+      );
+    });
+
+    showToast(I18N[currentLang].toasts.imageSaved);
+  } catch (e) {
+    console.error(e);
+    showToast(I18N[currentLang].toasts.imageError);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function hexToRgba(hex, a) {
+  const h = hex.replace('#', '');
+  const n = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+  const num = parseInt(n, 16);
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
+  const b = num & 255;
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+/* ==========================================================
    分享
    ========================================================== */
 function shareResult() {
@@ -2521,6 +2767,12 @@ function init() {
     if (I18N[currentLang].types[code]) {
       setTimeout(() => showResultByCode(code), 80);
     }
+  }
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js', { scope: './' }).catch(() => {});
+    });
   }
 }
 
