@@ -3,8 +3,10 @@
 > 人格不是盒子，而是河流。
 
 [![Deploy](https://github.com/ZHANGYUEMIN/FLUX/actions/workflows/deploy.yml/badge.svg)](https://github.com/ZHANGYUEMIN/FLUX/actions/workflows/deploy.yml)
-[![Code: MIT](./LICENSE)](./LICENSE)
-[![Content: CC BY-SA 4.0](./LICENSE-CONTENT)](./LICENSE-CONTENT)
+[![Code: MIT](https://img.shields.io/badge/Code-MIT-c1440e?style=flat-square)](./LICENSE)
+[![Content: CC BY-SA 4.0](https://img.shields.io/badge/Content-CC%20BY--SA%204.0-4fc3f7?style=flat-square)](./LICENSE-CONTENT)
+[![PWA](https://img.shields.io/badge/PWA-ready-c9a84c?style=flat-square)](./manifest.json)
+[![i18n](https://img.shields.io/badge/i18n-zh%20%C2%B7%20en%20%C2%B7%20ja-8a9ba8?style=flat-square)](./index.html)
 
 **在线体验（GitHub Pages）**：[https://zhangyuemin.github.io/FLUX/](https://zhangyuemin.github.io/FLUX/)
 

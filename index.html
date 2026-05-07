@@ -1052,6 +1052,51 @@
     padding-bottom: 1px;
   }
   footer .footer-meta a:hover { color: var(--glow); border-color: var(--glow); }
+  footer .license-badges {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+    justify-content: center;
+  }
+  footer .license-badges a {
+    display: inline-flex;
+    align-items: stretch;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px;
+    overflow: hidden;
+    text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    transition: border-color 0.25s, transform 0.25s;
+    background: rgba(255,255,255,0.02);
+  }
+  footer .license-badges a:hover {
+    border-color: var(--glow);
+    transform: translateY(-1px);
+  }
+  footer .license-badges .badge-key {
+    padding: 7px 10px;
+    background: rgba(0,0,0,0.4);
+    color: rgba(255,255,255,0.7);
+  }
+  footer .license-badges .badge-val {
+    padding: 7px 10px;
+    color: var(--paper);
+    font-weight: 700;
+  }
+  footer .license-badges .b-mit .badge-val { background: rgba(193,68,14,0.85); }
+  footer .license-badges .b-cc .badge-val  { background: rgba(79,195,247,0.85); color: var(--ink); }
+  footer .license-badges .b-pwa .badge-val { background: rgba(201,168,76,0.85); color: var(--ink); }
+  footer .license-badges .b-i18n .badge-val{ background: rgba(138,155,168,0.85); color: var(--ink); }
+  @media (max-width: 600px) {
+    footer .license-badges { gap: 8px; margin-top: 18px; }
+    footer .license-badges a { font-size: 0.5rem; }
+    footer .license-badges .badge-key,
+    footer .license-badges .badge-val { padding: 6px 9px; }
+  }
 
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
@@ -1408,6 +1453,20 @@
     <a href="https://github.com" id="footerGitHub" target="_blank" rel="noopener" data-i18n="footer.linkSource">开源代码</a>
     <a href="#intro" data-i18n="footer.linkAbout">关于</a>
     <a href="#quiz" data-i18n="footer.linkStart">开始测试</a>
+  </div>
+  <div class="license-badges" aria-label="Project licenses and tech badges">
+    <a class="b-mit" href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener" title="MIT License — code">
+      <span class="badge-key">CODE</span><span class="badge-val">MIT</span>
+    </a>
+    <a class="b-cc" href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener" title="Creative Commons BY-SA 4.0 — content">
+      <span class="badge-key">CONTENT</span><span class="badge-val">CC BY-SA 4.0</span>
+    </a>
+    <a class="b-pwa" href="https://github.com/ZHANGYUEMIN/FLUX#readme" target="_blank" rel="noopener" title="Progressive Web App ready">
+      <span class="badge-key">PWA</span><span class="badge-val">READY</span>
+    </a>
+    <a class="b-i18n" href="https://github.com/ZHANGYUEMIN/FLUX#readme" target="_blank" rel="noopener" title="Internationalization">
+      <span class="badge-key">I18N</span><span class="badge-val">ZH · EN · JA</span>
+    </a>
   </div>
   <div class="footer-meta">
     <span data-i18n="footer.copyright">© 2026 HAPPY Games · All Rights Reserved</span>
