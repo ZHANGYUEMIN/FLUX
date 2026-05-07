@@ -2636,12 +2636,34 @@ async function saveResultPoster() {
     ctx.textBaseline = 'top';
     y = cy + 50;
 
+    y += 30;
     const motto = (I18N[currentLang].footer && I18N[currentLang].footer.motto) || '';
-    const sloganTop = H - 220;
-    if (y < sloganTop) y = sloganTop;
-    ctx.font = `italic 400 26px ${serif}`;
+    ctx.font = `italic 400 30px ${serif}`;
     ctx.fillStyle = paper;
     ctx.fillText(motto, 72, y);
+    y += 44;
+
+    const watermarkSize = 460;
+    const wmRaw = miniGlyph(code, accent).replace(/width="44"/, `width="${watermarkSize}"`).replace(/height="44"/, `height="${watermarkSize}"`);
+    const wmMarkup = wmRaw.includes('xmlns') ? wmRaw : wmRaw.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+    const wmBlob = new Blob([wmMarkup], { type: 'image/svg+xml;charset=utf-8' });
+    const wmUrl = URL.createObjectURL(wmBlob);
+    try {
+      const wmImg = await new Promise((resolve, reject) => {
+        const im = new Image();
+        im.onload = () => resolve(im);
+        im.onerror = () => reject(new Error('wm'));
+        im.src = wmUrl;
+      });
+      ctx.save();
+      ctx.globalAlpha = 0.07;
+      ctx.drawImage(wmImg, W - watermarkSize - 40, H - watermarkSize - 60, watermarkSize, watermarkSize);
+      ctx.restore();
+    } catch (e) {
+      /* watermark optional */
+    } finally {
+      URL.revokeObjectURL(wmUrl);
+    }
 
     const footerTop = H - 128;
     if (y > footerTop - 20) y = footerTop - 20;
