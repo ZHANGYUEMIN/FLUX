@@ -1,5 +1,5 @@
 /* FLUX · minimal offline shell — caches core assets on install */
-const CACHE_NAME = 'flux-shell-v6';
+const CACHE_NAME = 'flux-shell-v7';
 const PRECACHE = ['./', './index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', (event) => {

@@ -504,6 +504,26 @@
     position: relative;
     z-index: 1;
   }
+  .type-character {
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    width: 180px;
+    height: 260px;
+    opacity: 0;
+    transform: translateY(20px) scale(0.92);
+    transition: opacity 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    pointer-events: none;
+    z-index: 0;
+    filter: drop-shadow(0 6px 18px rgba(0,0,0,0.35));
+  }
+  .type-character svg { width: 100%; height: 100%; display: block; }
+  .type-card:hover .type-character {
+    opacity: 0.85;
+    transform: translateY(0) scale(1);
+  }
+  .type-card:hover .type-glyph { opacity: 0.25; }
   .type-code {
     font-family: 'Space Mono', monospace;
     font-size: 0.6rem;
@@ -1155,6 +1175,9 @@
     .type-card:hover .type-name,
     .type-card:hover .type-tagline,
     .type-card:hover .type-traits { color: inherit; }
+    .type-card:hover .type-character { opacity: 0; transform: translateY(20px) scale(0.92); }
+    .type-card:hover .type-glyph { opacity: 1; }
+    .type-character { display: none; }
     .option-btn:hover { transform: none; }
     .option-btn:active {
       background: rgba(255,255,255,0.08);
@@ -2416,6 +2439,7 @@ function renderTypesGrid() {
     const color = TYPE_COLORS[code];
     return `
       <div class="type-card" onclick="location.hash='#result=${code}'">
+        <div class="type-character" aria-hidden="true">${characterArt(code, color)}</div>
         <div class="type-glyph" style="display:flex;align-items:center;justify-content:center;">
           ${miniGlyph(code, color)}
         </div>
