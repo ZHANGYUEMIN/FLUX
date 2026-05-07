@@ -2466,37 +2466,12 @@ async function saveResultPoster() {
       ctx.lineTo(x, H);
       ctx.stroke();
     }
-    for (let y = 0; y < H; y += 48) {
+    for (let gy = 0; gy < H; gy += 48) {
       ctx.beginPath();
-      ctx.moveTo(0, y);
-      ctx.lineTo(W, y);
+      ctx.moveTo(0, gy);
+      ctx.lineTo(W, gy);
       ctx.stroke();
     }
-
-    ctx.font = '300 20px "Space Mono",monospace';
-    ctx.fillStyle = glow;
-    ctx.textBaseline = 'top';
-    ctx.fillText((posterMeta.tagBadge || 'FLUX · 2026').toUpperCase(), 72, 56);
-
-    let lx = 72;
-    const logoY = 108;
-    const logoSize = 118;
-    const logoGap = 4;
-    const fluxStr = 'FLUX';
-    for (let i = 0; i < fluxStr.length; i++) {
-      const ch = fluxStr[i];
-      const isU = ch === 'U';
-      ctx.font = `${isU ? 900 : 200} ${logoSize}px Raleway,system-ui,sans-serif`;
-      ctx.fillStyle = isU ? accent : paper;
-      ctx.textBaseline = 'alphabetic';
-      ctx.fillText(ch, lx, logoY);
-      lx += ctx.measureText(ch).width + logoGap;
-    }
-
-    ctx.textBaseline = 'top';
-    ctx.font = '700 56px "Space Mono",monospace';
-    ctx.fillStyle = accent;
-    ctx.fillText(code, 72, 248);
 
     const svgRaw = miniGlyph(code, accent).replace(/width="44"/, 'width="200"').replace(/height="44"/, 'height="200"');
     const svgMarkup = svgRaw.includes('xmlns') ? svgRaw : svgRaw.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
@@ -2510,64 +2485,135 @@ async function saveResultPoster() {
     });
     URL.revokeObjectURL(svgUrl);
 
-    const gw = 200;
-    const gh = 200;
-    ctx.drawImage(glyphImg, W - gw - 72, 210, gw, gh);
-
     const serif = posterSerifStack();
-    ctx.fillStyle = paper;
-    ctx.font = `600 52px ${serif}`;
-    const name = tData.name || '';
-    ctx.fillText(name, 72, 340);
+    const gw = 188;
+    const gh = 188;
+    let y = 48;
 
-    ctx.font = `400 30px ${serif}`;
+    ctx.textBaseline = 'top';
+    ctx.font = '400 17px "Space Mono",monospace';
+    ctx.fillStyle = glow;
+    ctx.fillText(posterMeta.tagBadge || 'FLUX · 2026', 72, y);
+    y += 32;
+
+    const logoSize = 100;
+    const logoBaseline = y + logoSize * 0.82;
+    ctx.textBaseline = 'alphabetic';
+    let lx = 72;
+    for (let i = 0; i < 4; i++) {
+      const ch = 'FLUX'[i];
+      const isU = ch === 'U';
+      ctx.font = `${isU ? 900 : 200} ${logoSize}px Raleway,system-ui,sans-serif`;
+      ctx.fillStyle = isU ? accent : paper;
+      ctx.fillText(ch, lx, logoBaseline);
+      lx += ctx.measureText(ch).width + 3;
+    }
+    ctx.textBaseline = 'top';
+    y = logoBaseline + 26;
+
+    ctx.font = '700 52px "Space Mono",monospace';
+    ctx.fillStyle = accent;
+    const codeY = y;
+    ctx.fillText(code, 72, codeY);
+    ctx.drawImage(glyphImg, W - gw - 72, codeY - 6, gw, gh);
+    y = codeY + 64;
+
+    ctx.fillStyle = paper;
+    ctx.font = `600 46px ${serif}`;
+    ctx.fillText(tData.name || '', 72, y);
+    y += 56;
+
+    ctx.font = `400 27px ${serif}`;
     ctx.fillStyle = mist;
     const tagPlain = stripHtml(tData.tagline).replace(/\s+/g, ' ');
-    const tagLines = wrapPosterLines(ctx, tagPlain, W - 144);
-    let ty = 410;
-    tagLines.slice(0, 4).forEach(line => {
-      ctx.fillText(line, 72, ty);
-      ty += 42;
+    wrapPosterLines(ctx, tagPlain, W - gw - 72 - 100).slice(0, 3).forEach(line => {
+      ctx.fillText(line, 72, y);
+      y += 36;
     });
+    y += 12;
 
     const tags = [code[0], code[1], code[2]].map(c => poles[c].abbr || poles[c].trait);
     let px = 72;
-    const py = 560;
-    ctx.font = '400 22px "Space Mono",monospace';
+    const pillY = y;
+    ctx.font = '400 19px "Space Mono",monospace';
     tags.forEach((label, idx) => {
-      const padX = 18;
+      const padX = 16;
       const tw = ctx.measureText(label).width + padX * 2;
-      const th = 44;
+      const th = 40;
       ctx.strokeStyle = idx === 0 ? accent : glow;
       ctx.lineWidth = 1.5;
-      drawRoundedRect(ctx, px, py, tw, th, 8);
+      drawRoundedRect(ctx, px, pillY, tw, th, 8);
       ctx.stroke();
       ctx.fillStyle = paper;
       ctx.textBaseline = 'middle';
-      ctx.fillText(label, px + padX, py + th / 2);
-      px += tw + 14;
+      ctx.fillText(label, px + padX, pillY + th / 2);
+      px += tw + 12;
     });
-
     ctx.textBaseline = 'top';
+    y = pillY + 52;
+
+    y += 18;
     ctx.strokeStyle = 'rgba(245,240,232,0.12)';
     ctx.beginPath();
-    ctx.moveTo(72, 640);
-    ctx.lineTo(W - 72, 640);
+    ctx.moveTo(72, y);
+    ctx.lineTo(W - 72, y);
     ctx.stroke();
+    y += 36;
 
-    const shareUrl = `${location.origin}${location.pathname}${location.search}${location.hash}`;
-    ctx.font = '400 24px "Space Mono",monospace';
+    const R = I18N[currentLang].result;
+    ctx.font = `600 22px ${serif}`;
+    ctx.fillStyle = accent;
+    ctx.fillText(R.sectionStrengths, 72, y);
+    y += 40;
+
+    ctx.font = `400 24px ${serif}`;
     ctx.fillStyle = paper;
-    const urlLines = wrapPosterLines(ctx, shareUrl, W - 144);
-    let uy = H - 120 - urlLines.length * 34;
-    urlLines.forEach(line => {
-      ctx.fillText(line, 72, uy);
-      uy += 34;
+    (tData.strengths || []).slice(0, 4).forEach(s => {
+      const lineStart = '· ';
+      wrapPosterLines(ctx, lineStart + s, W - 144).forEach(line => {
+        ctx.fillText(line, 72, y);
+        y += 32;
+      });
+      y += 4;
     });
+
+    y += 14;
+    ctx.font = `600 22px ${serif}`;
+    ctx.fillStyle = accent;
+    ctx.fillText(R.sectionGrowth, 72, y);
+    y += 38;
 
     ctx.font = `400 22px ${serif}`;
     ctx.fillStyle = mist;
-    ctx.fillText(posterMeta.footerHint || 'FLUX', 72, H - 56);
+    const growthPlain = (tData.growth || '').replace(/\s+/g, ' ');
+    const growMax = currentLang === 'en' ? 280 : 180;
+    const growText = growthPlain.length > growMax ? growthPlain.slice(0, growMax).trim() + '…' : growthPlain;
+    wrapPosterLines(ctx, growText, W - 144).slice(0, 4).forEach(line => {
+      ctx.fillText(line, 72, y);
+      y += 30;
+    });
+
+    const footerTop = H - 128;
+    if (y > footerTop - 20) y = footerTop - 20;
+
+    ctx.strokeStyle = 'rgba(245,240,232,0.12)';
+    ctx.beginPath();
+    ctx.moveTo(72, footerTop);
+    ctx.lineTo(W - 72, footerTop);
+    ctx.stroke();
+
+    const shareUrl = `${location.origin}${location.pathname}${location.search}${location.hash}`;
+    ctx.font = '400 22px "Space Mono",monospace';
+    ctx.fillStyle = paper;
+    let uy = footerTop + 22;
+    wrapPosterLines(ctx, shareUrl, W - 144).forEach(line => {
+      ctx.fillText(line, 72, uy);
+      uy += 30;
+    });
+
+    ctx.font = `400 20px ${serif}`;
+    ctx.fillStyle = mist;
+    ctx.fillText(posterMeta.footerHint || 'FLUX', 72, H - 52);
 
     await new Promise((resolve, reject) => {
       canvas.toBlob(
