@@ -2577,6 +2577,22 @@ async function saveResultPoster() {
       y += 4;
     });
 
+    y += 16;
+    ctx.font = `600 22px ${serif}`;
+    ctx.fillStyle = accent;
+    ctx.fillText(R.sectionShadows, 72, y);
+    y += 40;
+
+    ctx.font = `400 24px ${serif}`;
+    ctx.fillStyle = paper;
+    (tData.shadows || []).slice(0, 4).forEach(s => {
+      wrapPosterLines(ctx, '· ' + s, W - 144).forEach(line => {
+        ctx.fillText(line, 72, y);
+        y += 32;
+      });
+      y += 4;
+    });
+
     y += 14;
     ctx.font = `600 22px ${serif}`;
     ctx.fillStyle = accent;
@@ -2586,12 +2602,46 @@ async function saveResultPoster() {
     ctx.font = `400 22px ${serif}`;
     ctx.fillStyle = mist;
     const growthPlain = (tData.growth || '').replace(/\s+/g, ' ');
-    const growMax = currentLang === 'en' ? 280 : 180;
+    const growMax = currentLang === 'en' ? 240 : 150;
     const growText = growthPlain.length > growMax ? growthPlain.slice(0, growMax).trim() + '…' : growthPlain;
-    wrapPosterLines(ctx, growText, W - 144).slice(0, 4).forEach(line => {
+    wrapPosterLines(ctx, growText, W - 144).slice(0, 3).forEach(line => {
       ctx.fillText(line, 72, y);
       y += 30;
     });
+
+    y += 18;
+    ctx.font = `600 22px ${serif}`;
+    ctx.fillStyle = accent;
+    ctx.fillText(R.sectionCareers, 72, y);
+    y += 38;
+
+    const careers = (tData.careers || []).slice(0, 5);
+    let cx = 72;
+    const cy = y;
+    ctx.font = `400 18px ${serif}`;
+    careers.forEach(c => {
+      const padX = 14;
+      const tw = ctx.measureText(c).width + padX * 2;
+      const th = 36;
+      if (cx + tw > W - 72) return;
+      ctx.strokeStyle = 'rgba(245,240,232,0.3)';
+      ctx.lineWidth = 1;
+      drawRoundedRect(ctx, cx, cy, tw, th, 6);
+      ctx.stroke();
+      ctx.fillStyle = paper;
+      ctx.textBaseline = 'middle';
+      ctx.fillText(c, cx + padX, cy + th / 2);
+      cx += tw + 10;
+    });
+    ctx.textBaseline = 'top';
+    y = cy + 50;
+
+    const motto = (I18N[currentLang].footer && I18N[currentLang].footer.motto) || '';
+    const sloganTop = H - 220;
+    if (y < sloganTop) y = sloganTop;
+    ctx.font = `italic 400 26px ${serif}`;
+    ctx.fillStyle = paper;
+    ctx.fillText(motto, 72, y);
 
     const footerTop = H - 128;
     if (y > footerTop - 20) y = footerTop - 20;
