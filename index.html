@@ -1135,6 +1135,133 @@
     footer .license-badges .badge-val { padding: 6px 9px; }
   }
 
+  /* ==========================================================
+     右键菜单 · FLUX style
+     ========================================================== */
+  .ctx-menu {
+    position: fixed;
+    z-index: 10000;
+    min-width: 240px;
+    max-width: 280px;
+    background: rgba(15, 22, 35, 0.96);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid rgba(193, 68, 14, 0.35);
+    box-shadow: 0 24px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(245,240,232,0.04) inset;
+    color: var(--paper);
+    padding: 8px 0;
+    opacity: 0;
+    transform: scale(0.95) translateY(-4px);
+    transform-origin: top left;
+    pointer-events: none;
+    transition: opacity 0.16s ease-out, transform 0.16s ease-out;
+    user-select: none;
+    border-radius: 2px;
+  }
+  .ctx-menu.show {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+  }
+  .ctx-menu .ctx-header {
+    padding: 8px 18px 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.32em;
+    color: var(--accent);
+    border-bottom: 1px solid rgba(245,240,232,0.08);
+    margin-bottom: 6px;
+  }
+  .ctx-menu .ctx-divider {
+    height: 1px;
+    background: rgba(245,240,232,0.08);
+    margin: 6px 14px;
+  }
+  .ctx-menu .ctx-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 18px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    color: rgba(245,240,232,0.82);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, padding-left 0.2s;
+    position: relative;
+  }
+  html[lang="ja"] .ctx-menu .ctx-item { font-family: 'Noto Serif JP', serif; }
+  html[lang="en"] .ctx-menu .ctx-item { font-family: 'Raleway', sans-serif; font-size: 0.78rem; letter-spacing: 0.08em; }
+  .ctx-menu .ctx-item:hover {
+    background: linear-gradient(90deg, rgba(193,68,14,0.18) 0%, rgba(193,68,14,0.04) 100%);
+    color: var(--paper);
+    padding-left: 22px;
+  }
+  .ctx-menu .ctx-item:hover::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--accent);
+  }
+  .ctx-menu .ctx-icon {
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+    color: var(--accent);
+    opacity: 0.9;
+  }
+  .ctx-menu .ctx-icon svg { width: 100%; height: 100%; display: block; }
+  .ctx-menu .ctx-shortcut {
+    margin-left: auto;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: rgba(245,240,232,0.35);
+  }
+  .ctx-menu .ctx-submenu {
+    position: relative;
+  }
+  .ctx-menu .ctx-submenu > .ctx-arrow {
+    margin-left: auto;
+    color: rgba(245,240,232,0.4);
+    font-size: 0.7rem;
+  }
+  .ctx-menu .ctx-submenu-panel {
+    position: absolute;
+    left: 100%;
+    top: -8px;
+    min-width: 160px;
+    background: rgba(15, 22, 35, 0.96);
+    backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid rgba(193, 68, 14, 0.35);
+    box-shadow: 0 24px 48px rgba(0,0,0,0.55);
+    padding: 6px 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+    border-radius: 2px;
+  }
+  .ctx-menu .ctx-submenu:hover > .ctx-submenu-panel {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .ctx-menu .ctx-submenu-panel .ctx-item.active {
+    color: var(--accent);
+  }
+  .ctx-menu .ctx-hint {
+    padding: 8px 18px 4px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.16em;
+    color: rgba(245,240,232,0.3);
+    border-top: 1px solid rgba(245,240,232,0.06);
+    margin-top: 6px;
+  }
+  /* hide on touch / coarse pointer */
+  @media (hover: none), (pointer: coarse) {
+    .ctx-menu { display: none !important; }
+  }
+
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(24px); }
     to { opacity: 1; transform: translateY(0); }
@@ -1541,6 +1668,48 @@
 
 <div class="toast" id="toast"></div>
 
+<div class="ctx-menu" id="ctxMenu" role="menu" aria-hidden="true">
+  <div class="ctx-header" id="ctxHeader">FLUX · 流态人格</div>
+  <div class="ctx-item" data-action="quiz" role="menuitem">
+    <span class="ctx-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3v18l7-4 7 4V3z"/></svg></span>
+    <span data-i18n="ctx.takeQuiz">开始测试</span>
+    <span class="ctx-shortcut">↵</span>
+  </div>
+  <div class="ctx-submenu" data-action="lang">
+    <div class="ctx-item" role="menuitem">
+      <span class="ctx-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>
+      <span data-i18n="ctx.langSwitch">切换语言</span>
+      <span class="ctx-arrow">›</span>
+    </div>
+    <div class="ctx-submenu-panel">
+      <div class="ctx-item" data-lang="zh-CN" role="menuitem"><span data-i18n="ctx.langZh">简体中文</span></div>
+      <div class="ctx-item" data-lang="en" role="menuitem"><span data-i18n="ctx.langEn">English</span></div>
+      <div class="ctx-item" data-lang="ja" role="menuitem"><span data-i18n="ctx.langJa">日本語</span></div>
+    </div>
+  </div>
+  <div class="ctx-divider"></div>
+  <div class="ctx-item" data-action="copy" role="menuitem">
+    <span class="ctx-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></span>
+    <span data-i18n="ctx.copyLink">复制当前链接</span>
+    <span class="ctx-shortcut">⌘C</span>
+  </div>
+  <div class="ctx-item" data-action="feedback" role="menuitem">
+    <span class="ctx-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+    <span data-i18n="ctx.feedback">反馈 Bug</span>
+  </div>
+  <div class="ctx-divider"></div>
+  <div class="ctx-item" data-action="github" role="menuitem">
+    <span class="ctx-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></span>
+    <span data-i18n="ctx.github">查看源代码</span>
+  </div>
+  <div class="ctx-item" data-action="reload" role="menuitem">
+    <span class="ctx-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></span>
+    <span data-i18n="ctx.reload">重新加载</span>
+    <span class="ctx-shortcut">⌘R</span>
+  </div>
+  <div class="ctx-hint" data-i18n="ctx.hint">按住 Shift 右键以使用浏览器菜单</div>
+</div>
+
 <script>
 /* ==========================================================
    FLUX i18n 字典 — 简体中文 / English / 日本語
@@ -1624,6 +1793,17 @@ const I18N = {
       cancel: '取消',
       empty: '请先填写反馈内容',
       subject: '[FLUX 反馈]'
+    },
+    ctx: {
+      header: 'FLUX · 流态人格',
+      hint: '按住 Shift 右键以使用浏览器菜单',
+      takeQuiz: '开始测试',
+      langSwitch: '切换语言',
+      copyLink: '复制当前链接',
+      feedback: '反馈 Bug',
+      github: '查看源代码',
+      reload: '重新加载',
+      langZh: '简体中文', langEn: 'English', langJa: '日本語'
     },
     footer: {
       desc: '基于动态人格理论 · 非二元，非静态 · 2026',
@@ -1819,6 +1999,17 @@ const I18N = {
       empty: 'Please fill in feedback content first',
       subject: '[FLUX Feedback]'
     },
+    ctx: {
+      header: 'FLUX · Fluid Personality',
+      hint: 'Shift + right-click for browser menu',
+      takeQuiz: 'Take the Test',
+      langSwitch: 'Switch Language',
+      copyLink: 'Copy Current Link',
+      feedback: 'Report a Bug',
+      github: 'View Source Code',
+      reload: 'Reload',
+      langZh: '简体中文', langEn: 'English', langJa: '日本語'
+    },
     footer: {
       desc: 'Built on dynamic personality theory · Non-binary, non-static · 2026',
       motto: 'Personality is a river, not a container.',
@@ -2012,6 +2203,17 @@ const I18N = {
       cancel: 'キャンセル',
       empty: 'フィードバック内容を入力してください',
       subject: '[FLUX フィードバック]'
+    },
+    ctx: {
+      header: 'FLUX · 流型人格',
+      hint: 'Shift + 右クリックでブラウザメニュー',
+      takeQuiz: '診断を始める',
+      langSwitch: '言語切替',
+      copyLink: 'リンクをコピー',
+      feedback: 'バグ報告',
+      github: 'ソースコード',
+      reload: '再読み込み',
+      langZh: '简体中文', langEn: 'English', langJa: '日本語'
     },
     footer: {
       desc: '動的人格理論に基づく · 非二元、非静的 · 2026',
@@ -3182,6 +3384,105 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.12 });
 
 /* ==========================================================
+   右键菜单 · FLUX style context menu
+   ========================================================== */
+function setupContextMenu() {
+  const menu = document.getElementById('ctxMenu');
+  if (!menu) return;
+
+  const isCoarsePointer = matchMedia('(pointer: coarse)').matches;
+  if (isCoarsePointer) return;
+
+  const updateActiveLang = () => {
+    menu.querySelectorAll('.ctx-submenu-panel .ctx-item[data-lang]').forEach(el => {
+      el.classList.toggle('active', el.dataset.lang === currentLang);
+    });
+  };
+
+  const openAt = (x, y) => {
+    updateActiveLang();
+    menu.style.left = '0px';
+    menu.style.top = '0px';
+    menu.classList.add('show');
+    menu.setAttribute('aria-hidden', 'false');
+    requestAnimationFrame(() => {
+      const rect = menu.getBoundingClientRect();
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const margin = 8;
+      const subW = 160;
+      let left = x;
+      let top = y;
+      if (left + rect.width + subW + margin > vw) left = Math.max(margin, vw - rect.width - subW - margin);
+      if (top + rect.height + margin > vh) top = Math.max(margin, vh - rect.height - margin);
+      menu.style.left = left + 'px';
+      menu.style.top = top + 'px';
+    });
+  };
+
+  const close = () => {
+    menu.classList.remove('show');
+    menu.setAttribute('aria-hidden', 'true');
+  };
+
+  document.addEventListener('contextmenu', (e) => {
+    if (e.shiftKey) return;
+    const t = e.target;
+    if (t && (t.closest('input, textarea, [contenteditable="true"]'))) return;
+    e.preventDefault();
+    openAt(e.clientX, e.clientY);
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!menu.contains(e.target)) close();
+  });
+  document.addEventListener('scroll', close, { passive: true });
+  window.addEventListener('blur', close);
+  window.addEventListener('resize', close);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+  menu.addEventListener('click', (e) => {
+    const item = e.target.closest('.ctx-item');
+    if (!item) return;
+
+    if (item.dataset.lang) {
+      setLanguage(item.dataset.lang);
+      close();
+      return;
+    }
+
+    const action = item.closest('[data-action]')?.dataset.action;
+    switch (action) {
+      case 'quiz':
+        document.getElementById('quiz')?.scrollIntoView({ behavior: 'smooth' });
+        close();
+        break;
+      case 'copy':
+        navigator.clipboard.writeText(location.href).then(() => {
+          showToast(I18N[currentLang].toasts.linkCopied);
+        }).catch(() => {});
+        close();
+        break;
+      case 'feedback':
+        close();
+        openFeedback();
+        break;
+      case 'github':
+        window.open('https://github.com/ZHANGYUEMIN/FLUX', '_blank', 'noopener');
+        close();
+        break;
+      case 'reload':
+        location.reload();
+        break;
+      case 'lang':
+        break;
+      default:
+        close();
+    }
+  });
+}
+
+/* ==========================================================
    初始化
    ========================================================== */
 function init() {
@@ -3202,6 +3503,7 @@ function init() {
 
   spawnParticles();
   setupNav();
+  setupContextMenu();
   setTimeout(() => {
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   }, 0);
